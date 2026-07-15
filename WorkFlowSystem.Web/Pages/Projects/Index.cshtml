@@ -1,0 +1,38 @@
+﻿@page
+@model WorkFlowSystem.Web.Pages.Projects.IndexModel
+<h2>Projects</h2>
+
+<a asp-page="Create" class="btn btn-success mb-3">
+    Dodaj projekt
+</a>
+
+<table class="table">
+
+    <thead>
+
+        <tr>
+
+            <th>Nazwa</th>
+
+            <th>Opis</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var project in Model.Projects)
+        {
+            <tr>
+
+                <td>@project.Name</td>
+
+                <td>@project.Description</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

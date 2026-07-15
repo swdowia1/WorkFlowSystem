@@ -1,0 +1,39 @@
+﻿@page
+@model WorkFlowSystem.Web.Pages.Projects.CreateModel
+<h2>Nowy projekt</h2>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label asp-for="Project.Name"></label>
+        <input asp-for="Project.Name" class="form-control" />
+        <span asp-validation-for="Project.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Project.Description"></label>
+        <textarea asp-for="Project.Description"
+                  class="form-control"
+                  rows="4"></textarea>
+        <span asp-validation-for="Project.Description"
+              class="text-danger"></span>
+    </div>
+
+    
+
+    <button type="submit"
+            class="btn btn-primary">
+        Zapisz
+    </button>
+
+    <a asp-page="Index"
+       class="btn btn-secondary">
+        Anuluj
+    </a>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
