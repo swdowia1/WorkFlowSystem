@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WorkFlowSystem.Application.Repositories;
+using WorkFlowSystem.Application.Services;
+using WorkFlowSystem.Infrastructure.Infra;
 using WorkFlowSystem.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped(typeof(IRepository<>),
+                           typeof(Repository<>));
+builder.Services.AddScoped<UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

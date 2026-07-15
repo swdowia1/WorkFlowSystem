@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WorkFlowSystem.Application\WorkFlowSystem.Application.csproj" />
     <ProjectReference Include="..\WorkFlowSystem.Domain\WorkFlowSystem.Domain.csproj" />
   </ItemGroup>
 

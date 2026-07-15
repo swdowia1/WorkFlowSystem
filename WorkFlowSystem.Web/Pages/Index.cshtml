@@ -1,10 +1,43 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@model WorkFlowSystem.Web.Pages.IndexModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Users</h2>
+
+<table class="table">
+
+    <thead>
+
+        <tr>
+
+            <th>Id</th>
+
+            <th>First Name</th>
+
+            <th>Last Name</th>
+
+            <th>Email</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+
+                <td>@user.Id</td>
+
+                <td>@user.FirstName</td>
+
+                <td>@user.LastName</td>
+
+                <td>@user.Email</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

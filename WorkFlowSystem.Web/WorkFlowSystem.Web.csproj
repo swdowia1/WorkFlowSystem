@@ -18,6 +18,7 @@
     <Folder Include="Service\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WorkFlowSystem.Application\WorkFlowSystem.Application.csproj" />
     <ProjectReference Include="..\WorkFlowSystem.Infrastructure\WorkFlowSystem.Infrastructure.csproj" />
   </ItemGroup>
 
