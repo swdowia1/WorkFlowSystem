@@ -1,4 +1,5 @@
 ﻿@page
+@using WorkFlowSystem.Web.Extensions
 @model WorkFlowSystem.Web.Pages.Tasks.IndexModel
 <h2>Zadania</h2>
 
@@ -12,7 +13,7 @@
 <table class="table">
 
     <tr>
-
+        <th>Projekt</th>
         <th>Tytuł</th>
 
         <th>Status</th>
@@ -24,12 +25,16 @@
     @foreach (var task in Model.Tasks)
     {
         <tr>
-
+            <td>@task.Project.Name</td>
             <td>@task.Title</td>
 
-            <td>@task.Status</td>
+            <td>@task.Status.GetDescription()</td>
 
-            <td>@task.Priority</td>
+            <td>
+                <span class="badge bg-warning text-dark">
+                    @task.Priority.GetDescription()
+                </span>
+            </td>
 
         </tr>
     }

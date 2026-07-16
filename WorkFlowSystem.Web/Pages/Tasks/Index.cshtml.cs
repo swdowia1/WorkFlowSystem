@@ -18,7 +18,8 @@ namespace WorkFlowSystem.Web.Pages.Tasks
 
         public async Task OnGetAsync()
         {
-            Tasks = await _service.GetAllAsync();
+           // Tasks = await _service.GetAllAsync();
+            Tasks = await _service.GetListAsync();
         }
     }
 }

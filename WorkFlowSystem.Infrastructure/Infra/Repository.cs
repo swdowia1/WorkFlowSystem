@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WorkFlowSystem.Application.Repositories;
@@ -51,7 +52,18 @@ namespace WorkFlowSystem.Infrastructure.Infra
             if (entity != null)
                 _dbSet.Remove(entity);
         }
+        public async Task<List<T>> GetAllAsync(
+    params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
 
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
+        }
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

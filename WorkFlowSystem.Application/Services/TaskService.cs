@@ -22,7 +22,10 @@ namespace WorkFlowSystem.Application.Services
         {
             return await _repository.GetAllAsync();
         }
-
+        public async Task<List<TaskItem>> GetListAsync()
+        {
+            return await _repository.GetAllAsync(x => x.Project);
+        }
         public async Task AddAsync(TaskDto dto)
         {
             var task = new TaskItem
