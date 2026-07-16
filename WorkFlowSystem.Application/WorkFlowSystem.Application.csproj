@@ -14,4 +14,8 @@
     <ProjectReference Include="..\WorkFlowSystem.Domain\WorkFlowSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InterFaces\" />
+  </ItemGroup>
+
 </Project>

@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WorkFlowSystem.Application.DTO;
-using WorkFlowSystem.Application.InterFaces;
+
 using WorkFlowSystem.Application.Services;
+using WorkFlowSystem.Domain.Enums;
 using WorkFlowSystem.Web.Extensions;
 
 namespace WorkFlowSystem.Web.Pages.Tasks
@@ -11,11 +12,11 @@ namespace WorkFlowSystem.Web.Pages.Tasks
     public class CreateModel : PageModel
     {
         private readonly TaskService _taskService;
-        private readonly ILookupService _lookupService;
+        private readonly LookupService _lookupService;
 
         public CreateModel(
             TaskService taskService,
-            ILookupService lookupService)
+            LookupService lookupService)
         {
             _taskService = taskService;
             _lookupService = lookupService;
@@ -52,9 +53,9 @@ namespace WorkFlowSystem.Web.Pages.Tasks
         {
              Projects = (await _lookupService.GetProjectsAsync()).ToSelectList();
 
-            Statuses = _lookupService.GetTaskStatuses(Task.Status).ToSelectList();
+            Statuses = _lookupService.GetEnumLookup<TaskProjectStatus>().ToSelectList();
 
-            Priorities = _lookupService.GetTaskPriorities(Task.Priority).ToSelectList();
+            Priorities = _lookupService.GetEnumLookup<TaskPriority>().ToSelectList();
         }
     }
 }

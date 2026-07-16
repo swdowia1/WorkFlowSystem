@@ -1,14 +1,14 @@
 ﻿
 using WorkFlowSystem.Application.Common;
 using WorkFlowSystem.Application.DTO;
-using WorkFlowSystem.Application.InterFaces;
+
 using WorkFlowSystem.Application.Repositories;
 using WorkFlowSystem.Domain.Entities;
 using WorkFlowSystem.Domain.Enums;
 
 namespace WorkFlowSystem.Application.Services
 {
-    public class LookupService : ILookupService
+    public class LookupService : IService
     {
         private readonly IRepository<Project> _projectRepository;
 
@@ -16,7 +16,12 @@ namespace WorkFlowSystem.Application.Services
         {
             _projectRepository = projectRepository;
         }
-
+        public List<LookupDto> GetEnumLookup<TEnum>(
+        TEnum? selected = null)
+        where TEnum : struct, Enum
+        {
+            return EnumHelper.ToSelectList(selected);
+        }
         public async Task<List<LookupDto>> GetProjectsAsync(int? selected = null)
         {
             var projects = await _projectRepository.GetAllAsync();
@@ -34,10 +39,7 @@ namespace WorkFlowSystem.Application.Services
             return EnumHelper.ToSelectList(selected);
         }
 
-        public List<LookupDto> GetTaskPriorities(TaskPriority? selected = null)
-        {
-            return EnumHelper.ToSelectList(selected);
-        }
+       
 
         public List<LookupDto> GetTaskStatuses(TaskProjectStatus? selected = null)
         {

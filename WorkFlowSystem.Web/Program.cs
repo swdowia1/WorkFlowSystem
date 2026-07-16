@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WorkFlowSystem.Application.InterFaces;
+
 using WorkFlowSystem.Application.Repositories;
 using WorkFlowSystem.Application.Services;
 using WorkFlowSystem.Infrastructure.Infra;
@@ -18,7 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped(typeof(IRepository<>),
                            typeof(Repository<>));
 
-builder.Services.AddScoped<ILookupService, LookupService>();
+
 builder.Services.AddApplicationServices();
 var app = builder.Build();
 
