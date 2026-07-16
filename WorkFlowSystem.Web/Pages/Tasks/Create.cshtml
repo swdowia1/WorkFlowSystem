@@ -1,0 +1,82 @@
+﻿@page
+@model WorkFlowSystem.Web.Pages.Tasks.CreateModel
+<h2>Nowe zadanie</h2>
+
+<form method="post">
+
+    <div class="mb-3">
+
+        <label asp-for="Task.Title"></label>
+
+        <input asp-for="Task.Title" class="form-control" />
+
+        <span asp-validation-for="Task.Title"
+              class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label asp-for="Task.Description"></label>
+
+        <textarea asp-for="Task.Description"
+                  class="form-control"></textarea>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Projekt</label>
+
+        <select asp-for="Task.ProjectId"
+                asp-items="Model.Projects"
+                class="form-select">
+
+            <option value="">-- wybierz projekt --</option>
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Status</label>
+
+        <select asp-for="Task.Status"
+                asp-items="Model.Statuses"
+                class="form-select">
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Priorytet</label>
+
+        <select asp-for="Task.Priority"
+                asp-items="Model.Priorities"
+                class="form-select">
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label asp-for="Task.DueDate"></label>
+
+        <input asp-for="Task.DueDate"
+               type="date"
+               class="form-control" />
+
+    </div>
+
+    <button class="btn btn-primary">
+        Zapisz
+    </button>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

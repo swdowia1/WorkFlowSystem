@@ -1,0 +1,37 @@
+﻿@page
+@model WorkFlowSystem.Web.Pages.Tasks.IndexModel
+<h2>Zadania</h2>
+
+<a asp-page="Create"
+   class="btn btn-success mb-3">
+
+    Dodaj zadanie
+
+</a>
+
+<table class="table">
+
+    <tr>
+
+        <th>Tytuł</th>
+
+        <th>Status</th>
+
+        <th>Priorytet</th>
+
+    </tr>
+
+    @foreach (var task in Model.Tasks)
+    {
+        <tr>
+
+            <td>@task.Title</td>
+
+            <td>@task.Status</td>
+
+            <td>@task.Priority</td>
+
+        </tr>
+    }
+
+</table>

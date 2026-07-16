@@ -4,7 +4,7 @@ using WorkFlowSystem.Domain.Entities;
 
 namespace WorkFlowSystem.Application.Services
 {
-    public class ProjectService
+    public class ProjectService : IService
     {
         private readonly IRepository<Project> _projectRepository;
 

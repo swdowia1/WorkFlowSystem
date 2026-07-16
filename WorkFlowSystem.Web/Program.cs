@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using WorkFlowSystem.Application.InterFaces;
 using WorkFlowSystem.Application.Repositories;
 using WorkFlowSystem.Application.Services;
 using WorkFlowSystem.Infrastructure.Infra;
 using WorkFlowSystem.Infrastructure.Persistence;
+using WorkFlowSystem.Web.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 builder.Services.AddScoped(typeof(IRepository<>),
                            typeof(Repository<>));
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ProjectService>();
+
+builder.Services.AddScoped<ILookupService, LookupService>();
+builder.Services.AddApplicationServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

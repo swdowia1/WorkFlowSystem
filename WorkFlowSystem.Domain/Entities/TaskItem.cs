@@ -1,7 +1,7 @@
 ﻿
 
 using WorkFlowSystem.Domain.Enums;
-using TaskStatus = WorkFlowSystem.Domain.Enums.TaskStatus;
+using TaskProjectStatus = WorkFlowSystem.Domain.Enums.TaskProjectStatus;
 
 namespace WorkFlowSystem.Domain.Entities
 {
@@ -11,7 +11,7 @@ namespace WorkFlowSystem.Domain.Entities
 
         public string Description { get; set; } = string.Empty;
 
-        public TaskStatus Status { get; set; }
+        public TaskProjectStatus Status { get; set; }
 
         public TaskPriority Priority { get; set; }
 

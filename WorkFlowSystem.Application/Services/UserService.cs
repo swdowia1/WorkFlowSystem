@@ -9,7 +9,7 @@ using WorkFlowSystem.Domain.Entities;
 
 namespace WorkFlowSystem.Application.Services
 {
-    public class UserService
+    public class UserService: IService
     {
         private readonly IRepository<User> _repository;
         public async Task AddUserAsync(UserDto dto)

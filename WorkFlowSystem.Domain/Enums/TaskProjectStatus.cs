@@ -2,7 +2,7 @@
 
 namespace WorkFlowSystem.Domain.Enums
 {
-    public enum TaskStatus
+    public enum TaskProjectStatus
     {
         [Description("Nowe")]
         New = 1,
