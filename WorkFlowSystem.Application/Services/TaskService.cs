@@ -17,7 +17,13 @@ namespace WorkFlowSystem.Application.Services
         {
             _repository = repository;
         }
-
+        public async Task<TaskItem?> GetDetailsAsync(int id)
+        {
+            return await _repository.GetAsync(
+         id,
+         x => x.Project,
+         x => x.WorkLogs);
+        }
         public async Task<List<TaskItem>> GetAllAsync()
         {
             return await _repository.GetAllAsync();

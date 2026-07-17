@@ -25,7 +25,13 @@
     @foreach (var task in Model.Tasks)
     {
         <tr>
-            <td>@task.Project.Name</td>
+            <td>
+            <a asp-page="Details"
+               asp-route-id="@task.Id"
+               class="btn btn-info btn-sm">
+                    @task.Project.Name
+                </a>
+            </td>
             <td>@task.Title</td>
 
             <td>@task.Status.GetDescription()</td>

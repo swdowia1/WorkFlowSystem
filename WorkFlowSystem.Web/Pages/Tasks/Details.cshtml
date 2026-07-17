@@ -1,0 +1,43 @@
+﻿@page "{id:int}"
+@using WorkFlowSystem.Web.Extensions
+@model WorkFlowSystem.Web.Pages.Tasks.DetailsModel
+<h3>Czas pracy:@Model.Task.Title</h3>
+
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th>Data</th>
+
+            <th>Godziny</th>
+
+            <th>Opis</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var log in Model.Task.WorkLogs)
+        {
+            <tr>
+
+                <td>@log.WorkDate.ToWarsawString()</td>
+
+                <td>@log.Hours</td>
+
+                <td>@log.Description</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+<p class="fw-bold">
+    Razem:
+    @Model.Task.WorkLogs.Sum(x => x.Hours) h
+</p>

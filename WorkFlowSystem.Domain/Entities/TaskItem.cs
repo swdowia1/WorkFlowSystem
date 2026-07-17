@@ -20,5 +20,6 @@ namespace WorkFlowSystem.Domain.Entities
         public int ProjectId { get; set; }
 
         public Project Project { get; set; } = null!;
+        public ICollection<WorkLog> WorkLogs { get; set; } = [];
     }
 }

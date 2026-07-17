@@ -12,7 +12,9 @@ namespace WorkFlowSystem.Application.Repositories
         Task<List<T>> GetAllAsync();
 
         Task<T?> GetByIdAsync(int id);
-
+        Task<T?> GetAsync(
+    int id,
+    params Expression<Func<T, object>>[] includes);
         Task AddAsync(T entity);
 
         Task UpdateAsync(T entity);

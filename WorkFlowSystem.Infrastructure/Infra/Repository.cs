@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WorkFlowSystem.Application.Repositories;
+using WorkFlowSystem.Domain.Entities;
 using WorkFlowSystem.Infrastructure.Persistence;
 
 namespace WorkFlowSystem.Infrastructure.Infra
 {
-    public class Repository<T> : IRepository<T>
-    where T : class
-    {
+    public class Repository<T> : IRepository<T> where T : BaseEntity
+     {
         private readonly ApplicationDbContext _context;
 
         private readonly DbSet<T> _dbSet;
@@ -32,7 +32,19 @@ namespace WorkFlowSystem.Infrastructure.Infra
         {
             return await _dbSet.FindAsync(id);
         }
+        public async Task<T?> GetAsync(
+    int id,
+    params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
 
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
+        }
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
