@@ -19,7 +19,7 @@
         <th>Status</th>
 
         <th>Priorytet</th>
-
+        <th>Akcje</th>
     </tr>
 
     @foreach (var task in Model.Tasks)
@@ -34,6 +34,17 @@
                 <span class="badge bg-warning text-dark">
                     @task.Priority.GetDescription()
                 </span>
+            </td>
+            <td>
+
+                <a asp-page="Edit"
+                   asp-route-id="@task.Id"
+                   class="btn btn-warning btn-sm">
+
+                    Edytuj
+
+                </a>
+
             </td>
 
         </tr>

@@ -1,0 +1,56 @@
+﻿@using WorkFlowSystem.Web.Extensions
+@model WorkFlowSystem.Application.ViewModels.TaskFormViewModel
+
+<div class="mb-3">
+    <label asp-for="Task.Title" class="form-label"></label>
+    <input asp-for="Task.Title" class="form-control" />
+    <span asp-validation-for="Task.Title" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Task.Description" class="form-label"></label>
+    <textarea asp-for="Task.Description"
+              class="form-control"
+              rows="4"></textarea>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Task.ProjectId" class="form-label">
+        Projekt
+    </label>
+
+    <select asp-for="Task.ProjectId"
+            asp-items="Model.Projects.ToSelectList()"
+            class="form-select">
+        <option value="">-- wybierz projekt --</option>
+    </select>
+
+    <span asp-validation-for="Task.ProjectId"
+          class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Task.Status" class="form-label"></label>
+
+    <select asp-for="Task.Status"
+            asp-items="Model.Statuses.ToSelectList()"
+            class="form-select">
+    </select>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Task.Priority" class="form-label"></label>
+
+    <select asp-for="Task.Priority"
+            asp-items="Model.Priorities.ToSelectList()"
+            class="form-select">
+    </select>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Task.DueDate" class="form-label"></label>
+
+    <input asp-for="Task.DueDate"
+           type="date"
+           class="form-control" />
+</div>

@@ -18,7 +18,7 @@ namespace WorkFlowSystem.Application.Repositories
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(int id);
-
+ 
         Task SaveChangesAsync();
         Task<List<T>> GetAllAsync(
     params Expression<Func<T, object>>[] includes);
