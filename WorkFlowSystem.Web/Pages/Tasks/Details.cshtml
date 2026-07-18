@@ -41,3 +41,146 @@
     Razem:
     @Model.Task.WorkLogs.Sum(x => x.Hours) h
 </p>
+<button type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#workLogModal">
+    <i class="bi bi-clock"></i> Dodaj czas
+</button>
+<div class="modal fade"
+     id="workLogModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Dodaj wpis czasu pracy
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <input type="hidden"
+                       id="taskId"
+                       value="@Model.Task.Id" />
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Czas
+                    </label>
+
+                    <div id="hoursContainer"
+                         class="d-flex flex-wrap gap-2">
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Opis
+
+                    </label>
+
+                    <textarea id="description"
+                              class="form-control"
+                              rows="4"
+                              placeholder="Opisz wykonaną pracę...">
+                    </textarea>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+
+                    Anuluj
+
+                </button>
+
+                <button type="button"
+                        id="btnSaveWorkLog"
+                        class="btn btn-primary">
+
+                    Dodaj wpis
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts
+{
+    <script>
+
+        const hours = [
+
+            { text: "15 min", value: 0.25 },
+            { text: "30 min", value: 0.5 },
+            { text: "1 h", value: 1 },
+            { text: "2 h", value: 2 },
+            { text: "3 h", value: 3 }
+
+        ];
+
+        let selectedHours = 0;
+
+        const container =
+            document.getElementById("hoursContainer");
+
+        hours.forEach(item => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "btn btn-outline-primary";
+
+            button.innerText =
+                item.text;
+
+            button.onclick = function () {
+
+                selectedHours = item.value;
+
+                document
+                    .querySelectorAll("#hoursContainer button")
+                    .forEach(x => {
+
+                        x.classList.remove("btn-primary");
+                        x.classList.add("btn-outline-primary");
+
+                    });
+
+                button.classList.remove("btn-outline-primary");
+                button.classList.add("btn-primary");
+
+            };
+
+            container.appendChild(button);
+
+        });
+
+    </script>
+}
