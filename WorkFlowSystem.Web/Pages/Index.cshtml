@@ -22,20 +22,14 @@
                 <p>Active tasks from all projects</p>
             </div>
 
-
-           
-                <a asp-page="/Tasks/Create"
-                   class="btn btn-success mb-3">
-                    Dodaj zadanie
-                </a>
-           
+            <a asp-page="/Tasks/Create"
+               class="btn btn-success mb-3">
+                Dodaj zadanie
+            </a>
 
         </div>
 
-
-
         <div class="stats">
-
 
             <div class="stat-card">
                 <span>Projects</span>
@@ -47,16 +41,12 @@
                 </b>
             </div>
 
-
-
             <div class="stat-card">
                 <span>Tasks</span>
                 <b>
                     @Model.Tasks.Count
                 </b>
             </div>
-
-
 
             <div class="stat-card">
                 <span>Total Time</span>
@@ -65,16 +55,11 @@
                 </b>
             </div>
 
-
         </div>
-
-
 
         <div class="table-card">
 
-
             <table>
-
 
                 <thead>
                     <tr>
@@ -106,16 +91,12 @@
                     </tr>
                 </thead>
 
-
-
                 <tbody>
-
 
                     @foreach (var item in Model.Tasks)
                     {
 
                         <tr>
-
 
                             <td>
 
@@ -124,7 +105,6 @@
                                     <div class="task-number">
                                         @item.TaskId
                                     </div>
-
 
                                     <div>
 
@@ -142,8 +122,6 @@
 
                             </td>
 
-
-
                             <td>
 
                                 <span class="project">
@@ -151,8 +129,6 @@
                                 </span>
 
                             </td>
-
-
 
                             <td>
 
@@ -162,8 +138,6 @@
 
                             </td>
 
-
-
                             <td>
 
                                 <span class="priority">
@@ -171,8 +145,6 @@
                                 </span>
 
                             </td>
-
-
 
                             <td>
 
@@ -187,8 +159,6 @@
 
                             </td>
 
-
-
                             <td>
 
                                 <span class="hours">
@@ -197,25 +167,129 @@
 
                             </td>
                             <td>
-                                dodaj log
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-primary"
+                                        onclick="openWorkLogModal(@item.TaskId)">
+                                    Dodaj log
+                                </button>
                             </td>
 
                         </tr>
 
                     }
 
-
                 </tbody>
-
 
             </table>
 
-
         </div>
-
 
     </div>
 </div>
+
+<!-- Work log modal (reused for all rows) -->
+<div class="modal fade" id="workLogModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dodaj wpis czasu pracy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="workLogTaskId" value="" />
+
+                <div class="mb-3">
+                    <label class="form-label">Czas</label>
+                    <div id="indexHoursContainer" class="d-flex flex-wrap gap-2"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Opis</label>
+                    <textarea id="indexDescription" class="form-control" rows="4" placeholder="Opisz wykonaną pracę..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                <button type="button" id="btnSaveWorkLogIndex" class="btn btn-primary" onclick="saveWorkLogIndex()">Dodaj wpis</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="antiForgeryForm" method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts
+{
+    <script>
+        const indexHours = [
+            { text: "15 min", value: 0.25 },
+            { text: "30 min", value: 0.5 },
+            { text: "1 h", value: 1 },
+            { text: "2 h", value: 2 },
+            { text: "3 h", value: 3 }
+        ];
+
+        let selectedHoursIndex = 0;
+        let activeTaskId = 0;
+
+        const containerIndex = document.getElementById("indexHoursContainer");
+
+        indexHours.forEach(item => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-outline-primary";
+            button.innerText = item.text;
+            button.onclick = function () {
+                selectedHoursIndex = item.value;
+                document.querySelectorAll("#indexHoursContainer button").forEach(x => {
+                    x.classList.remove("btn-primary");
+                    x.classList.add("btn-outline-primary");
+                });
+                button.classList.remove("btn-outline-primary");
+                button.classList.add("btn-primary");
+            };
+            containerIndex.appendChild(button);
+        });
+
+        function openWorkLogModal(taskId) {
+            activeTaskId = taskId;
+            selectedHoursIndex = 0;
+            document.getElementById("workLogTaskId").value = taskId;
+            document.getElementById("indexDescription").value = "";
+            document.querySelectorAll("#indexHoursContainer button").forEach(x => {
+                x.classList.remove("btn-primary");
+                x.classList.add("btn-outline-primary");
+            });
+
+            var modalEl = document.getElementById('workLogModal');
+            var modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+
+        async function saveWorkLogIndex() {
+            if (selectedHoursIndex === 0) {
+                alert("Wybierz czas.");
+                return;
+            }
+
+            const description = document.getElementById("indexDescription").value;
+
+            try {
+                await api.post("AddWorkLog", {
+                    taskId: activeTaskId,
+                    hours: selectedHoursIndex,
+                    description: description
+                });
+
+                location.reload();
+            } catch (e) {
+                alert("Błąd podczas zapisu: " + (e?.message || e));
+            }
+        }
+    </script>
+}
 
 <style>
     .dashboard .container {
