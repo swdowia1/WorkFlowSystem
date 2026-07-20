@@ -80,5 +80,26 @@ namespace WorkFlowSystem.Infrastructure.Infra
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<List<T>> GetAllAsyncWhereInlude(
+    Expression<Func<T, bool>> predicate,
+    params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+
+            return await query.ToListAsync();
+        }
     }
 }

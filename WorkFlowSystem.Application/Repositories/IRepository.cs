@@ -24,5 +24,8 @@ namespace WorkFlowSystem.Application.Repositories
         Task SaveChangesAsync();
         Task<List<T>> GetAllAsync(
     params Expression<Func<T, object>>[] includes);
+        Task<List<T>> GetAllAsyncWhereInlude(
+    Expression<Func<T, bool>> predicate,
+    params Expression<Func<T, object>>[] includes);
     }
 }

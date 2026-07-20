@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WorkFlowSystem.Application.DTO;
 using WorkFlowSystem.Application.Repositories;
 using WorkFlowSystem.Domain.Entities;
+using WorkFlowSystem.Domain.Enums;
 
 namespace WorkFlowSystem.Application.Services
 {
@@ -23,6 +24,46 @@ namespace WorkFlowSystem.Application.Services
          id,
          x => x.Project,
          x => x.WorkLogs);
+        }
+        public async Task<List<TaskProjectDto>>
+       GetOpenTasksByProjectAsync()
+        {
+
+            var tasks = await _repository.GetAllAsyncWhereInlude(
+
+         x =>
+             x.Status != TaskProjectStatus.Done,
+
+
+         x => x.Project,
+         x => x.WorkLogs
+     );
+
+
+            return tasks.Select(x => new TaskProjectDto
+            {
+
+                TaskId = x.Id,
+
+                TaskTitle = x.Title,
+
+                ProjectId = x.ProjectId,
+
+                ProjectName = x.Project.Name,
+
+                Status = x.Status,
+
+                Priority = x.Priority,
+
+                DueDate = x.DueDate,
+
+
+                TotalHours =
+                    x.WorkLogs.Sum(w => w.Hours)
+
+
+            }).ToList();
+
         }
         public async Task<List<TaskItem>> GetAllAsync()
         {

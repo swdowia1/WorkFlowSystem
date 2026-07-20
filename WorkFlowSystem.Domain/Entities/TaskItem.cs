@@ -1,7 +1,7 @@
 ﻿
 
 using WorkFlowSystem.Domain.Enums;
-using TaskProjectStatus = WorkFlowSystem.Domain.Enums.TaskProjectStatus;
+
 
 namespace WorkFlowSystem.Domain.Entities
 {

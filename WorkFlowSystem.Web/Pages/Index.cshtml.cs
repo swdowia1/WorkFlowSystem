@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WorkFlowSystem.Application.DTO;
 using WorkFlowSystem.Application.Services;
 using WorkFlowSystem.Domain.Entities;
 
@@ -7,18 +8,21 @@ namespace WorkFlowSystem.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly UserService _userService;
+      
+         private readonly TaskService _TaskService;
+ 
+        public List<TaskProjectDto> Tasks { get; set; } = [];
 
-        public List<User> Users { get; set; } = [];
-
-        public IndexModel(UserService userService)
+        public IndexModel( TaskService taskService)
         {
-            _userService = userService;
+           
+            _TaskService = taskService;
         }
 
         public async Task OnGet()
         {
-            Users = await _userService.GetUsersAsync();
+      
+            Tasks = await _TaskService.GetOpenTasksByProjectAsync();
         }
     }
 }
