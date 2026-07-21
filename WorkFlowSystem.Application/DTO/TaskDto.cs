@@ -14,7 +14,6 @@ namespace WorkFlowSystem.Application.DTO
 
         public TaskPriority Priority { get; set; }
 
-        public DateTime? DueDate { get; set; }
 
         public int ProjectId { get; set; }
     }

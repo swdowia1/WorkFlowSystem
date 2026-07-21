@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkFlowSystem.Application.DTO;
+using WorkFlowSystem.Application.FUN;
 using WorkFlowSystem.Application.Repositories;
 using WorkFlowSystem.Domain.Entities;
 using WorkFlowSystem.Domain.Enums;
@@ -86,8 +87,7 @@ namespace WorkFlowSystem.Application.Services
                 Description = task.Description,
                 ProjectId = task.ProjectId,
                 Status = task.Status,
-                Priority = task.Priority,
-                DueDate = task.DueDate
+                Priority = task.Priority
             };
         }
         public async Task UpdateAsync(int id, TaskDto dto)
@@ -102,7 +102,7 @@ namespace WorkFlowSystem.Application.Services
             task.ProjectId = dto.ProjectId;
             task.Status = dto.Status;
             task.Priority = dto.Priority;
-            task.DueDate = dto.DueDate;
+            task.DueDate = classFun.DateNowUTC();
 
             await _repository.UpdateAsync(task);
 
@@ -116,7 +116,7 @@ namespace WorkFlowSystem.Application.Services
                 Description = dto.Description ?? "",
                 Status = dto.Status,
                 Priority = dto.Priority,
-                DueDate = dto.DueDate,
+                DueDate = classFun.DateNowUTC(),
                 ProjectId = dto.ProjectId
             };
 
