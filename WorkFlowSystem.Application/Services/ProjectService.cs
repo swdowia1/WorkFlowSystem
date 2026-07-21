@@ -23,7 +23,7 @@ namespace WorkFlowSystem.Application.Services
             var project = new Project
             {
                 Name = dto.Name,
-                Description = dto.Description,
+                Description = dto.Description??"",
                 UserId = dto.UserId
             };
 

@@ -98,7 +98,7 @@ namespace WorkFlowSystem.Application.Services
                 return;
 
             task.Title = dto.Title;
-            task.Description = dto.Description;
+            task.Description = dto.Description?? "";
             task.ProjectId = dto.ProjectId;
             task.Status = dto.Status;
             task.Priority = dto.Priority;
@@ -113,7 +113,7 @@ namespace WorkFlowSystem.Application.Services
             var task = new TaskItem
             {
                 Title = dto.Title,
-                Description = dto.Description,
+                Description = dto.Description ?? "",
                 Status = dto.Status,
                 Priority = dto.Priority,
                 DueDate = dto.DueDate,
