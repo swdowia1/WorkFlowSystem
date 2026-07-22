@@ -1,28 +1,26 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 using WorkFlowSystem.Application.DTO;
-using WorkFlowSystem.Application.Repositories;
+
 using WorkFlowSystem.Application.Services;
-using WorkFlowSystem.Domain.Entities;
-using WorkFlowSystem.Infrastructure.Infra;
+
+using WorkFlowSystem.Infrastructure.Persistence;
+using WorkFlowSystem.Tests.KLasy;
 
 namespace WorkFlowSystem.Tests
 {
-    public class UnitTest1
+    public class ProjectTest
     {
         [Fact]
         public async Task AddProjectAsync_Should_Save_Project_To_Database()
         {
             // Arrange
+             var provider = TestServiceProvider.Create();
 
-            using var context = DbContextFactory.Create();
-
-
-            IRepository<Project> repository =
-                new Repository<Project>(context);
-
-
-            var service = new ProjectService(repository);
+            var service = provider.GetRequiredService<ProjectService>();
+            var context = provider.GetRequiredService<ApplicationDbContext>();
 
 
             var dto = new ProjectDto

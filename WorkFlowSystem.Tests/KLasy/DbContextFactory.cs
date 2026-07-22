@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorkFlowSystem.Infrastructure.Persistence;
 
-namespace WorkFlowSystem.Tests
+namespace WorkFlowSystem.Tests.KLasy
 {
     public static class DbContextFactory
     {

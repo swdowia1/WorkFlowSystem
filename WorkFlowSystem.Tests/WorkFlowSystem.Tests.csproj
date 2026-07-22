@@ -22,6 +22,7 @@
     <ProjectReference Include="..\WorkFlowSystem.Application\WorkFlowSystem.Application.csproj" />
     <ProjectReference Include="..\WorkFlowSystem.Domain\WorkFlowSystem.Domain.csproj" />
     <ProjectReference Include="..\WorkFlowSystem.Infrastructure\WorkFlowSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\WorkFlowSystem.Web\WorkFlowSystem.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>

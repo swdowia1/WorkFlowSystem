@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorkFlowSystem.Domain.Entities;
 using WorkFlowSystem.Domain.Enums;
 
-namespace WorkFlowSystem.Tests
+namespace WorkFlowSystem.Tests.KLasy
 {
     public static class TestDataBuilder
     {
