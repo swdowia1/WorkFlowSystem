@@ -22,7 +22,7 @@ namespace WorkFlowSystem.Web.Pages.Projects
                
                 return Page();
             }
-            Project.UserId = 1; // Set the UserId to a default value (e.g., 1) for now
+            
             await _projectService.AddProjectAsync(Project);
 
             return RedirectToPage("Index");

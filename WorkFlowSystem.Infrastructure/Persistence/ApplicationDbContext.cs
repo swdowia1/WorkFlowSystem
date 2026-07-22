@@ -11,7 +11,7 @@ namespace WorkFlowSystem.Infrastructure.Persistence
         {
         }
 
-        public DbSet<User> Users => Set<User>();
+    
 
         public DbSet<Project> Projects => Set<Project>();
 

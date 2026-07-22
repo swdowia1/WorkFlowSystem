@@ -27,10 +27,7 @@ namespace WorkFlowSystem.Web.Pages
                 return BadRequest("Nie wybrano czasu.");
             }
 
-            if (string.IsNullOrWhiteSpace(request.Description))
-            {
-                return BadRequest("Opis jest wymagany.");
-            }
+           
 
 
 

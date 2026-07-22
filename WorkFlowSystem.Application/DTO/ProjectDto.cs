@@ -11,7 +11,5 @@ namespace WorkFlowSystem.Application.DTO
         [StringLength(500)]
         public string? Description { get; set; } = string.Empty;
 
-        [Required]
-        public int UserId { get; set; }
     }
 }

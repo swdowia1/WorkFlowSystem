@@ -21,7 +21,7 @@ namespace WorkFlowSystem.Application.Services
                 TaskItemId = dto.TaskId,
                 WorkDate = classFun.DateNowUTC(),
                 Hours = dto.Hours,
-                Description = dto.Description.Trim()
+                Description = dto.Description??"".Trim()
             };
 
             await _repository.AddAsync(entity);

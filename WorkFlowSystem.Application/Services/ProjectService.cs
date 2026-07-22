@@ -24,7 +24,7 @@ namespace WorkFlowSystem.Application.Services
             {
                 Name = dto.Name,
                 Description = dto.Description??"",
-                UserId = dto.UserId
+          
             };
 
             await _projectRepository.AddAsync(project);
