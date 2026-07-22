@@ -36,6 +36,37 @@ namespace WorkFlowSystem.Tests
                     Description = "System ERP"
                 }
             });
+            const int projectId = 1;
+            context.Tasks.AddRange(new List<WorkFlowSystem.Domain.Entities.TaskItem>
+            {
+                new WorkFlowSystem.Domain.Entities.TaskItem
+                {
+                    Title = "Task 1",
+                    Description = "Task 1 description",
+                    ProjectId = projectId,
+                    Status = WorkFlowSystem.Domain.Enums.TaskProjectStatus.InProgress
+                },
+                new WorkFlowSystem.Domain.Entities.TaskItem
+                {
+                    Title = "Task 2",
+                    Description = "Task 2 description",
+                    ProjectId = projectId,
+                    Status = WorkFlowSystem.Domain.Enums.TaskProjectStatus.Done
+                }
+            });
+            context.WorkLogs.AddRange(new List<WorkFlowSystem.Domain.Entities.WorkLog>
+            {
+                new WorkFlowSystem.Domain.Entities.WorkLog
+                {
+                    TaskItemId = 1,
+                    Hours = 3
+                },
+                new WorkFlowSystem.Domain.Entities.WorkLog
+                {
+                    TaskItemId = 2,
+                    Hours = 2
+                }
+            }); 
             context.SaveChanges();
         }
         [Fact]
@@ -43,6 +74,9 @@ namespace WorkFlowSystem.Tests
         {
             var dto = await service.GetDashboardAsync();
             dto.Projects.Should().Be(2);
+            dto.Tasks.Should().Be(2);
+            dto.OpenTasks.Should().Be(1);
+            dto.TotalHours.Should().Be(5);
         }
 
         
