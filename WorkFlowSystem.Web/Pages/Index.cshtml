@@ -1,16 +1,96 @@
 ﻿@page
 @model WorkFlowSystem.Web.Pages.IndexModel
 
-<h2>Users</h2>
-<a asp-page="/Users/Create" class="btn btn-primary">
-    Użytkownicy
-</a>
+
 <a asp-page="/Projects/Index" class="btn btn-primary">
     projekty
 </a>
 <a asp-page="/Tasks/Index" class="btn btn-warning">
     Taski
 </a>
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        📊 Dashboard
+    </h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <div class="display-4 text-primary">
+                        📁
+                    </div>
+
+                    <h5 class="mt-2">
+                        Projekty
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        @Model.Dashboard.Projects
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <div class="display-4 text-success">
+                        ✅
+                    </div>
+
+                    <h5 class="mt-2">
+                        Zadania
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        @Model.Dashboard.Tasks
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <div class="display-4 text-warning">
+                        ⏳
+                    </div>
+
+                    <h5 class="mt-2">
+                        Otwarte
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        @Model.Dashboard.OpenTasks
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <div class="display-4 text-danger">
+                        ⏱️
+                    </div>
+
+                    <h5 class="mt-2">
+                        Przepracowano
+                    </h5>
+
+                    <h2 class="fw-bold">
+                        @Model.Dashboard.TotalHours h
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 <div class="dashboard">
     <div class="container">
 
@@ -29,33 +109,7 @@
 
         </div>
 
-        <div class="stats">
-
-            <div class="stat-card">
-                <span>Projects</span>
-                <b>
-                    @(Model.Tasks
-                                        .Select(x => x.ProjectId)
-                                        .Distinct()
-                                        .Count())
-                </b>
-            </div>
-
-            <div class="stat-card">
-                <span>Tasks</span>
-                <b>
-                    @Model.Tasks.Count
-                </b>
-            </div>
-
-            <div class="stat-card">
-                <span>Total Time</span>
-                <b>
-                    @Model.Tasks.Sum(x => x.TotalHours) h
-                </b>
-            </div>
-
-        </div>
+       
 
         <div class="table-card">
 

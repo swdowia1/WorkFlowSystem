@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WorkFlowSystem.Application.DTO;
+using WorkFlowSystem.Application.DTO.Response;
 using WorkFlowSystem.Application.Services;
 using WorkFlowSystem.Domain.Entities;
 
@@ -11,13 +12,16 @@ namespace WorkFlowSystem.Web.Pages
       
          private readonly TaskService _TaskService;
         private readonly WorkLogService _workLogService;
+        //DashboardService
+        private readonly DashboardService _DashboardService;
         public List<TaskProjectDto> Tasks { get; set; } = [];
-
-        public IndexModel(TaskService taskService, WorkLogService workLogService)
+        public DashboardDto Dashboard { get; set; }
+        public IndexModel(TaskService taskService, WorkLogService workLogService, DashboardService dashboardService)
         {
 
             _TaskService = taskService;
             _workLogService = workLogService;
+            _DashboardService = dashboardService;
         }
         public async Task<IActionResult> OnPostAddWorkLogAsync(
  [FromBody] WorkLogDto request)
@@ -42,6 +46,7 @@ namespace WorkFlowSystem.Web.Pages
         {
       
             Tasks = await _TaskService.GetOpenTasksByProjectAsync();
+            Dashboard = await _DashboardService.GetDashboardAsync();
         }
     }
 }
