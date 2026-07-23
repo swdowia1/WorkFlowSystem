@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkFlowSystem.Application.Services;
+using WorkFlowSystem.Domain.Entities;
+using WorkFlowSystem.Domain.Enums;
 using WorkFlowSystem.Infrastructure.Persistence;
 using WorkFlowSystem.Tests.KLasy;
 
@@ -23,35 +25,35 @@ namespace WorkFlowSystem.Tests
             context = provider.GetRequiredService<ApplicationDbContext>();
 
             service = provider.GetRequiredService<TaskService>();
-            context.Projects.AddRange(new List<WorkFlowSystem.Domain.Entities.Project>
+            context.Projects.AddRange(new List<Project>
             {
-                new WorkFlowSystem.Domain.Entities.Project
+                new Project
                 {
                     Name = "CRM",
                     Description = "System CRM"
                 },
-                new WorkFlowSystem.Domain.Entities.Project
+                new Project
                 {
                     Name = "ERP",
                     Description = "System ERP"
                 }
             });
             const int projectId = 1;
-            context.Tasks.AddRange(new List<WorkFlowSystem.Domain.Entities.TaskItem>
+            context.Tasks.AddRange(new List<TaskItem>
             {
-                new WorkFlowSystem.Domain.Entities.TaskItem
+                new TaskItem
                 {
                     Title = "Task 1",
                     Description = "Task 1 description",
                     ProjectId = projectId,
-                    Status = WorkFlowSystem.Domain.Enums.TaskProjectStatus.InProgress
+                    Status = TaskProjectStatus.InProgress
                 },
-                new WorkFlowSystem.Domain.Entities.TaskItem
+                new TaskItem
                 {
                     Title = "Task 2",
                     Description = "Task 2 description",
                     ProjectId = projectId,
-                    Status = WorkFlowSystem.Domain.Enums.TaskProjectStatus.Done
+                    Status =TaskProjectStatus.Done
                 }
             });
             context.SaveChanges();
@@ -63,7 +65,8 @@ namespace WorkFlowSystem.Tests
             task.Should().NotBeNull();
             task!.Title.Should().Be("Task 1");
             task.Project.Should().NotBeNull();
-            task.Project.Name.Should().Be("CRM1");
+            task.Project.Name.Should().Be("CRM");
+            task.Id.Should().Be(1);
         }
         
     }

@@ -12,8 +12,8 @@ using WorkFlowSystem.Infrastructure.Persistence;
 namespace WorkFlowSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260715064316_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260723120524_start")]
+    partial class start
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,12 +41,7 @@ namespace WorkFlowSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -59,10 +54,20 @@ namespace WorkFlowSystem.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -74,31 +79,6 @@ namespace WorkFlowSystem.Infrastructure.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("WorkFlowSystem.Domain.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WorkFlowSystem.Domain.Entities.WorkLog", b =>
@@ -127,17 +107,6 @@ namespace WorkFlowSystem.Infrastructure.Migrations
                     b.HasIndex("TaskItemId");
 
                     b.ToTable("WorkLogs");
-                });
-
-            modelBuilder.Entity("WorkFlowSystem.Domain.Entities.Project", b =>
-                {
-                    b.HasOne("WorkFlowSystem.Domain.Entities.User", "User")
-                        .WithMany("Projects")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WorkFlowSystem.Domain.Entities.TaskItem", b =>
@@ -170,11 +139,6 @@ namespace WorkFlowSystem.Infrastructure.Migrations
             modelBuilder.Entity("WorkFlowSystem.Domain.Entities.TaskItem", b =>
                 {
                     b.Navigation("WorkLogs");
-                });
-
-            modelBuilder.Entity("WorkFlowSystem.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }

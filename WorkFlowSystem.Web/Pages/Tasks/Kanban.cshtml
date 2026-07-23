@@ -1,0 +1,240 @@
+﻿@page
+@model WorkFlowSystem.Web.Pages.Tasks.KanbanModel
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        📋 Kanban Board
+    </h2>
+
+    <div class="row g-3">
+
+        <!-- TODO -->
+        <div class="col-md-4">
+
+            <div class="card border-primary">
+
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        TODO
+                    </h5>
+                </div>
+
+                <div class="card-body kanban-column"
+                     data-status="1">
+
+                    @foreach (var task in Model.Tasks.Where(x => x.Status == 1))
+                    {
+                        <div class="card mb-3 shadow-sm task-card"
+                             draggable="true"
+                             data-task-id="@task.Id">
+
+                            <div class="card-body">
+
+                                <h6 class="fw-bold">
+                                    @task.Title
+                                </h6>
+
+                                <span class="badge bg-secondary">
+                                    @task.Priority
+                                </span>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- IN PROGRESS -->
+        <div class="col-md-4">
+
+            <div class="card border-warning">
+
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0">
+                        IN PROGRESS
+                    </h5>
+                </div>
+
+                <div class="card-body kanban-column"
+                     data-status="2">
+
+                    @foreach (var task in Model.Tasks.Where(x => x.Status == 2))
+                    {
+                        <div class="card mb-3 shadow-sm task-card"
+                             draggable="true"
+                             data-task-id="@task.Id">
+
+                            <div class="card-body">
+
+                                <h6 class="fw-bold">
+                                    @task.Title
+                                </h6>
+
+                                <span class="badge bg-secondary">
+                                    @task.Priority
+                                </span>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- DONE -->
+        <div class="col-md-4">
+
+            <div class="card border-success">
+
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        DONE
+                    </h5>
+                </div>
+
+                <div class="card-body kanban-column"
+                     data-status="3">
+
+                    @foreach (var task in Model.Tasks.Where(x => x.Status == 3))
+                    {
+                        <div class="card mb-3 shadow-sm task-card"
+                             draggable="true"
+                             data-task-id="@task.Id">
+
+                            <div class="card-body">
+
+                                <h6 class="fw-bold">
+                                    @task.Title
+                                </h6>
+
+                                <span class="badge bg-secondary">
+                                    @task.Priority
+                                </span>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    .task-card{
+        cursor:grab;
+        transition:.2s;
+    }
+
+    .task-card:hover{
+        transform:translateY(-2px);
+        box-shadow:0 .5rem 1rem rgba(0,0,0,.15);
+    }
+
+    .task-card.dragging{
+        opacity:.5;
+    }
+
+    .kanban-column{
+        min-height:600px;
+        background:#f8f9fa;
+        border-radius:8px;
+        transition:.2s;
+    }
+
+    .kanban-column.drag-over{
+        background:#dbeafe;
+    }
+
+</style>
+
+@section Scripts
+{
+    <script>
+
+        let draggedCard = null;
+
+        document.querySelectorAll(".task-card").forEach(card => {
+
+            card.addEventListener("dragstart", () => {
+
+                draggedCard = card;
+
+                card.classList.add("dragging");
+
+            });
+
+            card.addEventListener("dragend", () => {
+
+                card.classList.remove("dragging");
+
+            });
+
+        });
+
+
+        document.querySelectorAll(".kanban-column").forEach(column => {
+
+            column.addEventListener("dragover", e => {
+
+                e.preventDefault();
+
+            });
+
+            column.addEventListener("dragenter", () => {
+
+                column.classList.add("drag-over");
+
+            });
+
+            column.addEventListener("dragleave", () => {
+
+                column.classList.remove("drag-over");
+
+            });
+
+            column.addEventListener("drop", () => {
+
+                column.classList.remove("drag-over");
+
+                if (!draggedCard)
+                    return;
+
+                column.appendChild(draggedCard);
+
+                const taskId = draggedCard.dataset.taskId;
+                const status = column.dataset.status;
+
+                console.log("Task:", taskId);
+                console.log("Nowy status:", status);
+
+                // Następny krok:
+                // await api.post("UpdateStatus",
+                // {
+                //     taskId: taskId,
+                //     status: status
+                // });
+
+            });
+
+        });
+
+    </script>
+}
