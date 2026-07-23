@@ -135,6 +135,9 @@
     </div>
 
 </div>
+<form id="antiForgeryForm" method="post">
+    @Html.AntiForgeryToken()
+</form>
 
 <style>
 
@@ -210,12 +213,13 @@
 
             });
 
-            column.addEventListener("drop", () => {
+            column.addEventListener("drop", async() => {
 
                 column.classList.remove("drag-over");
 
                 if (!draggedCard)
                     return;
+                     const previousColumn = draggedCard.parentElement;
 
                 column.appendChild(draggedCard);
 
@@ -225,12 +229,25 @@
                 console.log("Task:", taskId);
                 console.log("Nowy status:", status);
 
-                // Następny krok:
-                // await api.post("UpdateStatus",
-                // {
-                //     taskId: taskId,
-                //     status: status
-                // });
+                       try {
+
+                   const result = await api.post("UpdateStatus", {
+            taskId: taskId,
+            status: status
+        });
+
+        console.log("RESULT:", result);
+
+            column.appendChild(draggedCard);
+
+        }
+        catch(e) {
+              console.error("ERROR", e);
+            previousColumn.appendChild(draggedCard);
+
+            alert("Nie udało się zmienić statusu.");
+
+        }
 
             });
 
