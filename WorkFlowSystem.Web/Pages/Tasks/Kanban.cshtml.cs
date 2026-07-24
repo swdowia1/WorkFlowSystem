@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WorkFlowSystem.Application.DTO;
-using WorkFlowSystem.Application.DTO.Response;
+
 using WorkFlowSystem.Application.Services;
 
 namespace WorkFlowSystem.Web.Pages.Tasks
@@ -24,7 +24,7 @@ namespace WorkFlowSystem.Web.Pages.Tasks
                 success = true
             });
         }
-        public List<KanbanTaskDto> Tasks { get; set; } = new();
+        public List<KanbanProjectDto> Tasks { get; set; } = new();
         public async Task OnGetAsync()
         {
             Tasks = await _service.GetKanbanAsync();

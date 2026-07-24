@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTO\Request\**" />
+    <EmbeddedResource Remove="DTO\Request\**" />
+    <None Remove="DTO\Request\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
   </ItemGroup>
 
@@ -15,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\Request\" />
     <Folder Include="InterFaces\" />
   </ItemGroup>
 
