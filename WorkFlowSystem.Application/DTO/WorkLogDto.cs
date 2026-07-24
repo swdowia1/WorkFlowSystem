@@ -6,7 +6,7 @@
         public int TaskId { get; set; }
 
         public decimal Hours { get; set; }
-
+        public DateTime WorkDate { get; set; }
         public string Description { get; set; } = string.Empty;
     }
 }

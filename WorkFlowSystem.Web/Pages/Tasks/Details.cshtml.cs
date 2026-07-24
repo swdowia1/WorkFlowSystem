@@ -11,7 +11,7 @@ namespace WorkFlowSystem.Web.Pages.Tasks
     {
         private readonly TaskService _taskService;
         private readonly WorkLogService _workLogService;    
-        public TaskItem? Task { get; private set; }
+        public TaskDetailsDto Task { get; private set; }
         public DetailsModel(TaskService taskService, WorkLogService workLogService)
         {
             _taskService = taskService;
@@ -53,7 +53,7 @@ namespace WorkFlowSystem.Web.Pages.Tasks
         }
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Task = await _taskService.GetDetailsAsync(id);
+            Task = await _taskService.GetDetailsAsync2(id);
 
             if (Task == null)
                 return NotFound();

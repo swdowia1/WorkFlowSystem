@@ -1,131 +1,193 @@
 ﻿@page "{id:int}"
-@using WorkFlowSystem.Web.Extensions
 @model WorkFlowSystem.Web.Pages.Tasks.DetailsModel
-<h3>Czas pracy:@Model.Task.Title @Model.Task.Id</h3>
 
-<table class="table table-striped">
+<div class="container-fluid mt-4">
 
-    <thead>
+    <div class="row">
 
-        <tr>
+        <!-- Lewa część -->
+        <div class="col-lg-8">
 
-            <th>Data</th>
+            <div class="card shadow-sm border-0">
 
-            <th>Godziny</th>
+                <div class="card-body">
 
-            <th>Opis</th>
-            <th></th>
+                    <div class="d-flex justify-content-between align-items-start">
 
-        </tr>
+                        <div>
 
-    </thead>
+                            <h2 class="fw-bold mb-1">
+                                @Model.Task.Title
+                            </h2>
 
-    <tbody>
+                            <span class="text-muted">
+                                @Model.Task.ProjectName
+                            </span>
 
-        @foreach (var log in Model.Task.WorkLogs)
-        {
-            <tr>
+                        </div>
 
-                <td>@log.WorkDate.ToWarsawString()</td>
+                        @if (Model.Task.IsOverdue)
+                        {
+                            <span class="badge bg-danger fs-6">
+                                Przeterminowane
+                            </span>
+                        }
 
-                <td>@log.Hours</td>
+                    </div>
 
-                <td>@log.Description</td>
-                <td>
-                    <button class="btn btn-sm btn-danger"
-                            onclick="deleteWorkLog(@log.Id)">
-                        <i class="bi bi-trash"></i>
-                        Usuń
-                    </button>
-                </td>
-            </tr>
-        }
+                    <hr />
 
-    </tbody>
+                    <h5>Opis</h5>
 
-</table>
-<p class="fw-bold">
-    Razem:
-    @Model.Task.WorkLogs.Sum(x => x.Hours) h
-</p>
-<button type="button"
-        class="btn btn-success"
-        data-bs-toggle="modal"
-        data-bs-target="#workLogModal">
-    <i class="bi bi-clock"></i> Dodaj czas
-</button>
-<div class="modal fade"
-     id="workLogModal"
-     tabindex="-1"
-     aria-hidden="true">
+                    <div class="task-description">
 
-    <div class="modal-dialog">
+                        @if (string.IsNullOrWhiteSpace(Model.Task.Description))
+                        {
+                            <span class="text-muted">
+                                Brak opisu
+                            </span>
+                        }
+                        else
+                        {
+                            @Model.Task.Description
+                        }
 
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Dodaj wpis czasu pracy
-                </h5>
-
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                </button>
-            </div>
-
-            <div class="modal-body">
-
-                <input type="hidden"
-                       id="taskId"
-                       value="@Model.Task.Id" />
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Czas
-                    </label>
-
-                    <div id="hoursContainer"
-                         class="d-flex flex-wrap gap-2">
                     </div>
 
                 </div>
 
-                <div class="mb-3">
+            </div>
 
-                    <label class="form-label">
+            <div class="card shadow-sm border-0 mt-4">
 
-                        Opis
+                <div class="card-header bg-white">
 
-                    </label>
+                    <h5 class="mb-0">
+                        WorkLog
+                    </h5>
 
-                    <textarea id="description"
-                              class="form-control"
-                              rows="4"
-                              placeholder="Opisz wykonaną pracę..."></textarea>
+                </div>
+
+                <div class="card-body p-0">
+
+                    <table class="table table-hover mb-0">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Data</th>
+
+                                <th>Godziny</th>
+
+                                <th>Opis</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var log in Model.Task.WorkLogs)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @log.WorkDate.ToString("dd.MM.yyyy")
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-primary">
+                                            @log.Hours h
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        @log.Description
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
 
                 </div>
 
             </div>
 
-            <div class="modal-footer">
+        </div>
 
-                <button type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
+        <!-- Prawa kolumna -->
 
-                    Anuluj
+        <div class="col-lg-4">
 
-                </button>
+            <div class="card shadow-sm border-0">
 
-                <button type="button"
-                        id="btnSaveWorkLog"
-                        class="btn btn-primary" onclick="saveWorkLog()">
+                <div class="card-header bg-white">
 
-                    Dodaj wpis
+                    <h5 class="mb-0">
+                        Szczegóły
+                    </h5>
 
-                </button>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="detail-row">
+
+                        <span>Status</span>
+
+                        <strong>@Model.Task.Status</strong>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <span>Priorytet</span>
+
+                        <strong>@Model.Task.Priority</strong>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <span>Termin</span>
+
+                        <strong>
+
+                            @(Model.Task.DueDate?.ToString("dd.MM.yyyy") ?? "-")
+
+                        </strong>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <span>Godziny</span>
+
+                        <strong>
+
+                            @Model.Task.TotalHours h
+
+                        </strong>
+
+                    </div>
+
+                    <div class="detail-row">
+
+                        <span>WorkLog</span>
+
+                        <strong>
+
+                            @Model.Task.WorkLogsCount
+
+                        </strong>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -134,92 +196,37 @@
     </div>
 
 </div>
-<form id="antiForgeryForm" method="post">
-    @Html.AntiForgeryToken()
-</form>
-@section Scripts
-{
-    <script>
-                
-        const hours = [
+<style>
+    .task-description {
+        min-height: 180px;
+        background: #fafafa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 20px;
+        line-height: 1.8;
+    }
 
-            { text: "15 min", value: 0.25 },
-            { text: "30 min", value: 0.5 },
-            { text: "1 h", value: 1 },
-            { text: "2 h", value: 2 },
-            { text: "3 h", value: 3 }
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid #ececec;
+    }
 
-        ];
-
-        let selectedHours = 0;
-
-        const container =
-            document.getElementById("hoursContainer");
-
-        hours.forEach(item => {
-
-            const button =
-                document.createElement("button");
-
-            button.type = "button";
-
-            button.className =
-                "btn btn-outline-primary";
-
-            button.innerText =
-                item.text;
-
-            button.onclick = function () {
-
-                selectedHours = item.value;
-
-                document
-                    .querySelectorAll("#hoursContainer button")
-                    .forEach(x => {
-
-                        x.classList.remove("btn-primary");
-                        x.classList.add("btn-outline-primary");
-
-                    });
-
-                button.classList.remove("btn-outline-primary");
-                button.classList.add("btn-primary");
-
-            };
-
-            container.appendChild(button);
-
-        });
-               async function saveWorkLog() {
-
-            if (selectedHours === 0) {
-                alert("Wybierz czas.");
-                return;
-            }
-
-            const description =
-                document.getElementById("description").value;
-
-                  await api.post("AddWorkLog", {
-            taskId: @Model.Task.Id,
-            hours: selectedHours,
-            description: description
-        });
-           
-          
-
-           location.reload();
-
+        .detail-row:last-child {
+            border-bottom: none;
         }
-               async function deleteWorkLog(id) {
 
-            if (!confirm("Czy na pewno usunąć ten wpis?")) {
-                return;
-            }
+    .card {
+        border-radius: 14px;
+    }
 
-           await api.delete("DeleteWorkLog", id);
+    .table td {
+        vertical-align: middle;
+    }
 
-            location.reload();
-        }
-    </script>
-}
+    .badge {
+        font-size: .9rem;
+    }
+</style>

@@ -19,6 +19,45 @@ namespace WorkFlowSystem.Application.Services
         {
             _repository = repository;
         }
+        public async Task<TaskDetailsDto> GetDetailsAsync2(int id)
+        {
+            var task = await _repository.GetAsync(
+                id,
+                x => x.Project,
+                x => x.WorkLogs);
+
+            if (task == null)
+                throw new Exception("Task not found.");
+
+            return new TaskDetailsDto
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                ProjectId = task.ProjectId,
+                ProjectName = task.Project.Name,
+                Status = task.Status,
+                Priority = task.Priority,
+                DueDate = task.DueDate,
+                TotalHours = task.WorkLogs.Sum(x => x.Hours),
+                WorkLogsCount = task.WorkLogs.Count,
+                IsOverdue =
+                    task.DueDate.HasValue &&
+                    task.DueDate.Value.Date < DateTime.Today &&
+                    task.Status != TaskProjectStatus.Done,
+                WorkLogs = task.WorkLogs
+                    .OrderByDescending(x => x.WorkDate)
+                    .Select(x => new WorkLogDto
+                    {
+                        Id = x.Id,
+                        WorkDate = x.WorkDate,
+                        Hours = x.Hours,
+                        Description = x.Description
+                    })
+                    .ToList()
+            };
+        }
+
         public async Task<TaskItem?> GetDetailsAsync(int id)
         {
             return await _repository.GetAsync(
@@ -116,7 +155,7 @@ namespace WorkFlowSystem.Application.Services
                 Description = dto.Description ?? "",
                 Status = dto.Status,
                 Priority = dto.Priority,
-                DueDate = classFun.DateNowUTC(),
+                DueDate = classFun.DateNowUTC().AddDays(7),
                 ProjectId = dto.ProjectId
             };
 
