@@ -1,0 +1,190 @@
+﻿@using WorkFlowSystem.Domain.Enums
+@model WorkFlowSystem.Application.DTO.KanbanTaskDto
+
+
+<div class="card task-card shadow-sm"
+     draggable="true"
+     data-task-id="@Model.Id">
+
+
+    <div class="card-body">
+
+
+        <!-- TITLE -->
+
+        <div class="d-flex justify-content-between">
+
+
+            <h6 class="fw-bold mb-2">
+
+                @Model.Title
+
+            </h6>
+
+
+            <span class="status-icon">
+
+                @switch (Model.Status)
+                {
+                    case TaskProjectStatus.New:
+                        <text>📝</text>
+                        break;
+
+                    case TaskProjectStatus.InProgress:
+                        <text>🚀</text>
+                        break;
+
+                    case TaskProjectStatus.Done:
+                        <text>✅</text>
+                        break;
+                }
+
+            </span>
+
+
+        </div>
+
+
+
+
+        <!-- DESCRIPTION -->
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+
+            <p class="task-description">
+
+                @(Model.Description.Length > 90
+                            ? Model.Description.Substring(0, 90) + "..."
+                            : Model.Description)
+
+        </p>
+
+                }
+
+
+
+
+
+        <!-- PROJECT -->
+
+        <div class="mb-2">
+
+            <span class="project-tag">
+
+                📁 @Model.ProjectName
+
+            </span>
+
+        </div>
+
+
+
+
+
+        <!-- FOOTER -->
+
+
+        <div class="task-footer">
+
+
+
+            <!-- PRIORITY -->
+
+
+            <span class="priority-badge
+                @GetPriorityClass(Model.Priority)">
+
+
+                @GetPriorityIcon(Model.Priority)
+
+                @Model.Priority
+
+
+            </span>
+
+
+
+
+
+            <!-- DETAILS -->
+
+
+            <a asp-page="Details"
+               asp-route-id="@Model.Id"
+               class="btn btn-sm btn-outline-primary">
+
+
+                👁
+
+            </a>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+@functions {
+
+
+    string GetPriorityClass(TaskPriority priority)
+    {
+
+        return priority switch
+        {
+
+            TaskPriority.Low
+                => "priority-low",
+
+
+            TaskPriority.Medium
+                => "priority-medium",
+
+
+            TaskPriority.High
+                => "priority-high",
+
+
+            _ => "priority-normal"
+
+        };
+
+    }
+
+
+
+    string GetPriorityIcon(TaskPriority priority)
+    {
+
+        return priority switch
+        {
+
+            TaskPriority.Low
+                => "🟢",
+
+
+            TaskPriority.Medium
+                => "🟡",
+
+
+            TaskPriority.High
+                => "🔴",
+
+
+            _ => "⚪"
+
+        };
+
+    }
+
+
+}
