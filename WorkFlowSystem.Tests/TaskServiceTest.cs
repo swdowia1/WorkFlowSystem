@@ -13,19 +13,13 @@ using WorkFlowSystem.Tests.KLasy;
 
 namespace WorkFlowSystem.Tests
 {
-    public class TaskServiceTests
+    public class TaskServiceTests : ServiceTestBase<TaskService>
     {
-        private readonly IServiceProvider provider;
-        private readonly ApplicationDbContext context;
-        private readonly TaskService service;
+       
         public TaskServiceTests()
         {
-            provider = TestServiceProvider.Create();
-
-            context = provider.GetRequiredService<ApplicationDbContext>();
-
-            service = provider.GetRequiredService<TaskService>();
-            context.Projects.AddRange(new List<Project>
+          
+            contextDB.Projects.AddRange(new List<Project>
             {
                 new Project
                 {
@@ -39,7 +33,7 @@ namespace WorkFlowSystem.Tests
                 }
             });
             const int projectId = 1;
-            context.Tasks.AddRange(new List<TaskItem>
+            contextDB.Tasks.AddRange(new List<TaskItem>
             {
                 new TaskItem
                 {
@@ -56,7 +50,7 @@ namespace WorkFlowSystem.Tests
                     Status =TaskProjectStatus.Done
                 }
             });
-            context.SaveChanges();
+            contextDB.SaveChanges();
         }
         [Fact]
         public async Task GetTaskDeatl()

@@ -11,19 +11,13 @@ using WorkFlowSystem.Tests.KLasy;
 
 namespace WorkFlowSystem.Tests
 {
-    public class DashboardServiceTests
+    public class DashboardServiceTests: ServiceTestBase<DashboardService>
     {
-        private readonly IServiceProvider provider;
-        private readonly ApplicationDbContext context;
-        private readonly DashboardService service;
+   
         public DashboardServiceTests()
         {
-            provider = TestServiceProvider.Create();
-
-            context = provider.GetRequiredService<ApplicationDbContext>();
-
-            service = provider.GetRequiredService<DashboardService>();
-            context.Projects.AddRange(new List<WorkFlowSystem.Domain.Entities.Project>
+            
+            contextDB.Projects.AddRange(new List<WorkFlowSystem.Domain.Entities.Project>
             {
                 new WorkFlowSystem.Domain.Entities.Project
                 {
@@ -37,7 +31,7 @@ namespace WorkFlowSystem.Tests
                 }
             });
             const int projectId = 1;
-            context.Tasks.AddRange(new List<WorkFlowSystem.Domain.Entities.TaskItem>
+            contextDB.Tasks.AddRange(new List<WorkFlowSystem.Domain.Entities.TaskItem>
             {
                 new WorkFlowSystem.Domain.Entities.TaskItem
                 {
@@ -54,7 +48,7 @@ namespace WorkFlowSystem.Tests
                     Status = WorkFlowSystem.Domain.Enums.TaskProjectStatus.Done
                 }
             });
-            context.WorkLogs.AddRange(new List<WorkFlowSystem.Domain.Entities.WorkLog>
+            contextDB.WorkLogs.AddRange(new List<WorkFlowSystem.Domain.Entities.WorkLog>
             {
                 new WorkFlowSystem.Domain.Entities.WorkLog
                 {
@@ -66,8 +60,8 @@ namespace WorkFlowSystem.Tests
                     TaskItemId = 2,
                     Hours = 2
                 }
-            }); 
-            context.SaveChanges();
+            });
+            contextDB.SaveChanges();
         }
         [Fact]
         public async Task GetDashboard_Should_Return_Project_Count()

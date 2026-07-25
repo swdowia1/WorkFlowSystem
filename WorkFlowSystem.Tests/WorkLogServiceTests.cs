@@ -13,20 +13,10 @@ using WorkFlowSystem.Tests.KLasy;
 
 namespace WorkFlowSystem.Tests
 {
-    public class WorkLogServiceTests
+    public class WorkLogServiceTests : ServiceTestBase<WorkLogService>
     {
-        private readonly IServiceProvider provider;
-        private readonly ApplicationDbContext context;
-        private readonly WorkLogService service;
-
-        public WorkLogServiceTests()
-        {
-            provider = TestServiceProvider.Create();
-
-            context = provider.GetRequiredService<ApplicationDbContext>();
-
-            service = provider.GetRequiredService<WorkLogService>();
-        }
+       
+        
         [Fact]
         public async Task AddAsync_Should_Save_WorkLog()
         {
@@ -36,8 +26,8 @@ namespace WorkFlowSystem.Tests
                 Name = "CRM"
             };
 
-            context.Projects.Add(project);
-            await context.SaveChangesAsync();
+            contextDB.Projects.Add(project);
+            await contextDB.SaveChangesAsync();
 
             var task = new TaskItem
             {
@@ -45,8 +35,8 @@ namespace WorkFlowSystem.Tests
                 ProjectId = project.Id
             };
 
-            context.Tasks.Add(task);
-            await context.SaveChangesAsync();
+            contextDB.Tasks.Add(task);
+            await contextDB.SaveChangesAsync();
 
             var dto = new WorkLogDto
             {
@@ -61,7 +51,7 @@ namespace WorkFlowSystem.Tests
             // Assert
             result.Id.Should().BeGreaterThan(0);
 
-            var workLog = context.WorkLogs.Single();
+            var workLog = contextDB.WorkLogs.Single();
 
             workLog.TaskItemId.Should().Be(task.Id);
             workLog.Hours.Should().Be(5);
@@ -79,8 +69,8 @@ namespace WorkFlowSystem.Tests
                 Name = "CRM"
             };
 
-            context.Projects.Add(project);
-            await context.SaveChangesAsync();
+            contextDB.Projects.Add(project);
+            await contextDB.SaveChangesAsync();
 
             var task = new TaskItem
             {
@@ -88,8 +78,8 @@ namespace WorkFlowSystem.Tests
                 ProjectId = project.Id
             };
 
-            context.Tasks.Add(task);
-            await context.SaveChangesAsync();
+            contextDB.Tasks.Add(task);
+            await contextDB.SaveChangesAsync();
 
             // Act
             await service.AddAsync(new WorkLogDto
@@ -100,7 +90,7 @@ namespace WorkFlowSystem.Tests
             });
 
             // Assert
-            var workLog = context.WorkLogs.Single();
+            var workLog = contextDB.WorkLogs.Single();
 
             workLog.Description.Should().BeEmpty();
         }
@@ -115,8 +105,8 @@ namespace WorkFlowSystem.Tests
                 Name = "CRM"
             };
 
-            context.Projects.Add(project);
-            await context.SaveChangesAsync();
+            contextDB.Projects.Add(project);
+            await contextDB.SaveChangesAsync();
 
             var task = new TaskItem
             {
@@ -124,8 +114,8 @@ namespace WorkFlowSystem.Tests
                 ProjectId = project.Id
             };
 
-            context.Tasks.Add(task);
-            await context.SaveChangesAsync();
+            contextDB.Tasks.Add(task);
+            await contextDB.SaveChangesAsync();
 
             var workLog = new WorkLog
             {
@@ -135,14 +125,14 @@ namespace WorkFlowSystem.Tests
                 Description = "Test"
             };
 
-            context.WorkLogs.Add(workLog);
-            await context.SaveChangesAsync();
+            contextDB.WorkLogs.Add(workLog);
+            await contextDB.SaveChangesAsync();
 
             // Act
             await service.DeleteAsync(workLog.Id);
 
             // Assert
-            context.WorkLogs.Should().BeEmpty();
+            contextDB.WorkLogs.Should().BeEmpty();
         }
     }
 }

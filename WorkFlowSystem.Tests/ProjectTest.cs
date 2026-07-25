@@ -11,16 +11,12 @@ using WorkFlowSystem.Tests.KLasy;
 
 namespace WorkFlowSystem.Tests
 {
-    public class ProjectTest
+    public class ProjectTest : ServiceTestBase<ProjectService>
     {
         [Fact]
         public async Task AddProjectAsync_Should_Save_Project_To_Database()
         {
-            // Arrange
-             var provider = TestServiceProvider.Create();
-
-            var service = provider.GetRequiredService<ProjectService>();
-            var context = provider.GetRequiredService<ApplicationDbContext>();
+            
 
 
             var dto = new ProjectDto
@@ -38,7 +34,7 @@ namespace WorkFlowSystem.Tests
 
             // Assert
 
-            var project = await context.Projects
+            var project = await contextDB.Projects
                 .FirstOrDefaultAsync();
 
 
