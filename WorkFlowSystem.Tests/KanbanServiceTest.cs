@@ -27,10 +27,10 @@ namespace WorkFlowSystem.Tests
             {
                 TaskId = 1,
                 Status = (int)Domain.Enums.TaskProjectStatus.Done
-            }); 
-
+            });
+            contextDB.ChangeTracker.Clear();
             var ttask = await contextDB.Tasks.FindAsync(1);
-            ttask.Id.Should().Be(1);
+            ttask.Status.Should().Be(Domain.Enums.TaskProjectStatus.Done,"brak zapisu");
 
         }
     }
