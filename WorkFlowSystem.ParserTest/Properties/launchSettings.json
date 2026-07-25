@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WorkFlowSystem.ParserTest": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
