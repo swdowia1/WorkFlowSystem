@@ -27,5 +27,6 @@ namespace WorkFlowSystem.Application.DTO
         public bool IsOverdue { get; set; }
 
         public List<WorkLogDto> WorkLogs { get; set; } = [];
+        public List<TagDto> Tags { get; set; } = [];
     }
 }

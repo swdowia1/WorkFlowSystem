@@ -10,17 +10,21 @@ namespace WorkFlowSystem.Application.Repositories
     public interface IRepository<T> where T : class
     {
         Task<List<T>> GetAllAsync();
-
+        Task<bool> AnyAsync(
+    Expression<Func<T, bool>> predicate);
+        Task<T?> FirstOrDefaultAsync(
+       Expression<Func<T, bool>> predicate);
         Task<T?> GetByIdAsync(int id);
         Task<T?> GetAsync(
-    int id,
-    params Expression<Func<T, object>>[] includes);
+            int id,
+            Func<IQueryable<T>, IQueryable<T>>? include = null);
         Task AddAsync(T entity);
 
         Task UpdateAsync(T entity);
 
         Task DeleteAsync(int id);
- 
+        Task DeleteAsync(T entity);
+
         Task SaveChangesAsync();
         Task<List<T>> GetAllAsync(
     params Expression<Func<T, object>>[] includes);

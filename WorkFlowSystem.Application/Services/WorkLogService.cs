@@ -40,7 +40,7 @@ namespace WorkFlowSystem.Application.Services
 
             await _repository.DeleteAsync(id);
 
-            await _repository.SaveChangesAsync();
+     
         }
     }
 }

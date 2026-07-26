@@ -32,15 +32,30 @@ namespace WorkFlowSystem.Infrastructure.Infra
         {
             return await _dbSet.FindAsync(id);
         }
+        public async Task<bool> AnyAsync(
+       Expression<Func<T, bool>> predicate)
+        {
+
+            return await _dbSet
+                .AnyAsync(predicate);
+
+        }
+        public async Task<T?> FirstOrDefaultAsync(
+    Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(predicate);
+        }
+
         public async Task<T?> GetAsync(
-    int id,
-    params Expression<Func<T, object>>[] includes)
+      int id,
+      Func<IQueryable<T>, IQueryable<T>>? include = null)
         {
             IQueryable<T> query = _context.Set<T>();
 
-            foreach (var include in includes)
+            if (include != null)
             {
-                query = query.Include(include);
+                query = include(query);
             }
 
             return await query.FirstOrDefaultAsync(x => x.Id == id);
@@ -63,6 +78,13 @@ namespace WorkFlowSystem.Infrastructure.Infra
 
             if (entity != null)
                 _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DeleteAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+
+            await _context.SaveChangesAsync();
         }
         public async Task<List<T>> GetAllAsync(
     params Expression<Func<T, object>>[] includes)

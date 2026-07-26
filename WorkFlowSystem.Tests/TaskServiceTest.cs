@@ -52,16 +52,7 @@ namespace WorkFlowSystem.Tests
             });
             contextDB.SaveChanges();
         }
-        [Fact]
-        public async Task GetTaskDeatl()
-        {
-            var task = await service.GetDetailsAsync(1);
-            task.Should().NotBeNull();
-            task!.Title.Should().Be("Task 1");
-            task.Project.Should().NotBeNull();
-            task.Project.Name.Should().Be("CRM");
-            task.Id.Should().Be(1);
-        }
+       
         
     }
 }

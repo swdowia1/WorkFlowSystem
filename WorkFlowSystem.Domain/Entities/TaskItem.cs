@@ -21,5 +21,6 @@ namespace WorkFlowSystem.Domain.Entities
 
         public Project Project { get; set; } = null!;
         public ICollection<WorkLog> WorkLogs { get; set; } = [];
+        public ICollection<TaskTag> TaskTags { get; set; } = [];
     }
 }

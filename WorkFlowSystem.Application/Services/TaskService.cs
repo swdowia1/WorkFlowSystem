@@ -8,6 +8,7 @@ using WorkFlowSystem.Application.FUN;
 using WorkFlowSystem.Application.Repositories;
 using WorkFlowSystem.Domain.Entities;
 using WorkFlowSystem.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace WorkFlowSystem.Application.Services
 {
@@ -22,9 +23,12 @@ namespace WorkFlowSystem.Application.Services
         public async Task<TaskDetailsDto> GetDetailsAsync2(int id)
         {
             var task = await _repository.GetAsync(
-                id,
-                x => x.Project,
-                x => x.WorkLogs);
+     id,
+     q => q
+         .Include(x => x.Project)
+         .Include(x => x.WorkLogs)
+         .Include(x => x.TaskTags)
+             .ThenInclude(x => x.Tag));
 
             if (task == null)
                 throw new Exception("Task not found.");
@@ -41,6 +45,14 @@ namespace WorkFlowSystem.Application.Services
                 DueDate = task.DueDate,
                 TotalHours = task.WorkLogs.Sum(x => x.Hours),
                 WorkLogsCount = task.WorkLogs.Count,
+                Tags = task.TaskTags
+            .Select(x => new TagDto
+            {
+                Id = x.Tag.Id,
+                Name = x.Tag.Name,
+                Color = x.Tag.Color
+            })
+            .ToList(),
                 IsOverdue =
                     task.DueDate.HasValue &&
                     task.DueDate.Value.Date < DateTime.Today &&
@@ -58,13 +70,7 @@ namespace WorkFlowSystem.Application.Services
             };
         }
 
-        public async Task<TaskItem?> GetDetailsAsync(int id)
-        {
-            return await _repository.GetAsync(
-         id,
-         x => x.Project,
-         x => x.WorkLogs);
-        }
+       
         public async Task<List<TaskProjectDto>>
        GetOpenTasksByProjectAsync()
         {
