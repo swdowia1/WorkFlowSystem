@@ -54,6 +54,34 @@
 
                     </div>
 
+                    <hr />
+
+                    <h5 class="mb-3">
+                        🏷 Tagi
+                    </h5>
+
+                    @if (Model.Task.Tags.Any())
+                    {
+                        <div class="d-flex flex-wrap gap-2">
+
+                            @foreach (var tag in Model.Task.Tags)
+                            {
+                                <span class="task-tag"
+                                      style="background:@tag.Color">
+
+                                    @tag.Name
+
+                                </span>
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            Brak przypisanych tagów
+                        </span>
+                    }
                 </div>
 
             </div>
@@ -197,6 +225,22 @@
 
 </div>
 <style>
+    .task-tag {
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: .85rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,.15);
+        transition: .2s;
+    }
+
+        .task-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,.25);
+        }
     .task-description {
         min-height: 180px;
         background: #fafafa;
