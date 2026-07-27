@@ -1,6 +1,6 @@
 ﻿namespace WorkFlowSystem.Application.DTO
 {
-    public class AssignTagDto
+    public class AddTaskTagDTO
     {
         public int TaskId { get; set; }
 

@@ -85,7 +85,13 @@
                 </div>
 
             </div>
+            <button class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addTagModal">
 
+                + Dodaj tag
+
+            </button>
             <div class="card shadow-sm border-0 mt-4">
 
                 <div class="card-header bg-white">
@@ -224,6 +230,61 @@
     </div>
 
 </div>
+@* Modalne okna *@
+<div class="modal fade"
+     id="addTagModal">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5>Dodaj tag</h5>
+
+            </div>
+
+            <div class="modal-body">
+
+                <select id="tagId"
+                        class="form-select">
+
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <option value="@tag.Id">
+
+                            @tag.Name
+
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button id="saveTag" onclick="addtag()"
+                        class="btn btn-primary">
+
+                    Dodaj
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<form id="antiForgeryForm" method="post">
+
+    @Html.AntiForgeryToken()
+
+</form>
+
 <style>
     .task-tag {
         color: white;
@@ -274,3 +335,25 @@
         font-size: .9rem;
     }
 </style>
+
+<script>
+   
+    async function  addtag()
+    {
+      
+         var tagId = $('#tagId').val();
+            var taskId = @Model.Task.Id;
+           console.log(tagId,taskId);
+           await api.post(
+        "AddTag",
+        {
+
+        taskId:taskId,
+
+
+        TagId:tagId
+       
+
+        });
+    }
+</script>

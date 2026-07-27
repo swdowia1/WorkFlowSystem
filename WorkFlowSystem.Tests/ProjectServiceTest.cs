@@ -11,7 +11,7 @@ using WorkFlowSystem.Tests.KLasy;
 
 namespace WorkFlowSystem.Tests
 {
-    public class ProjectTest : ServiceTestBase<ProjectService>
+    public class ProjectServiceTest : ServiceTestBase<ProjectService>
     {
         [Fact]
         public async Task AddProjectAsync_Should_Save_Project_To_Database()

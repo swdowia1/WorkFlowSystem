@@ -10,12 +10,26 @@ namespace WorkFlowSystem.Web.Pages.Tasks
     public class DetailsModel : PageModel
     {
         private readonly TaskService _taskService;
+        private readonly TagService _tagService;
         private readonly WorkLogService _workLogService;    
         public TaskDetailsDto Task { get; private set; }
-        public DetailsModel(TaskService taskService, WorkLogService workLogService)
+
+        public List<Tag> Tags { get; private set; } = new();
+        public DetailsModel(TaskService taskService, WorkLogService workLogService, TagService tagService)
         {
             _taskService = taskService;
             _workLogService = workLogService;
+            _tagService = tagService;
+        }
+        public async Task<IActionResult> OnPostAddTagAsync(
+    [FromBody] AddTaskTagDTO dto)
+        {
+            await _tagService.AddToTaskAsync(dto.TaskId, dto.TagId);
+
+            return new JsonResult(new
+            {
+                success = true
+            });
         }
         public async Task<IActionResult> OnPostDeleteWorkLogAsync(
     [FromBody] IntDto request)
@@ -54,7 +68,7 @@ namespace WorkFlowSystem.Web.Pages.Tasks
         public async Task<IActionResult> OnGetAsync(int id)
         {
             Task = await _taskService.GetDetailsAsync2(id);
-
+            Tags = (await _tagService.GetAllAsync()).ToList();
             if (Task == null)
                 return NotFound();
 
