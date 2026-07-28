@@ -69,7 +69,16 @@
                                 <span class="task-tag"
                                       style="background:@tag.Color">
 
-                                    @tag.Name
+                                    <span>@tag.Name</span>
+
+                                    <button type="button"
+                                            class="tag-remove"
+                                            onclick="removeTag(@tag.Id)"
+                                            title="Usuń tag">
+
+                                        <i class="bi bi-x-circle-fill"></i>
+
+                                    </button>
 
                                 </span>
                             }
@@ -287,29 +296,35 @@
 
 <style>
     .task-tag {
-        color: white;
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-size: .85rem;
-        font-weight: 600;
         display: inline-flex;
         align-items: center;
-        box-shadow: 0 2px 6px rgba(0,0,0,.15);
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        color: #fff;
+    }
+
+    .tag-remove {
+        all: unset;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1;
+        color: rgba(255,255,255,.85);
         transition: .2s;
     }
 
-        .task-tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0,0,0,.25);
+        .tag-remove:hover {
+            background: rgba(255,255,255,.25);
+            color: #fff;
         }
-    .task-description {
-        min-height: 180px;
-        background: #fafafa;
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        padding: 20px;
-        line-height: 1.8;
-    }
+    
 
     .detail-row {
         display: flex;
@@ -337,23 +352,25 @@
 </style>
 
 <script>
-   
+       async function removeTag(tagId) {
+
+        if (!confirm("Usunąć tag? "+tagId))
+            return;
+
+        // await api.post("DeleteTag", {
+        //     taskId: taskId,
+        //     tagId: tagId
+        // }, true);
+    }
     async function  addtag()
     {
       
          var tagId = $('#tagId').val();
             var taskId = @Model.Task.Id;
            console.log(tagId,taskId);
-           await api.post(
-        "AddTag",
-        {
-
-        taskId:taskId,
-
-
-        TagId:tagId
-       
-
-        });
+             await api.post("AddTag", {
+        taskId: taskId,
+        tagId: tagId
+    }, true);
     }
 </script>
