@@ -1,6 +1,9 @@
 ﻿namespace WorkFlowSystem.Application.DTO
 {
-    public class AddTaskTagDTO
+    /// <summary>
+    /// dodaje tag do zadania lub usuwa go z zadania
+    /// </summary>
+    public class TaskTagDTO
     {
         public int TaskId { get; set; }
 

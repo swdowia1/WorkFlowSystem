@@ -21,8 +21,18 @@ namespace WorkFlowSystem.Web.Pages.Tasks
             _workLogService = workLogService;
             _tagService = tagService;
         }
+        public async Task<IActionResult> OnPostDeleteTagAsync(
+    [FromBody] TaskTagDTO dto)
+        {
+            await _tagService.RemoveFromTaskAsync(dto.TaskId, dto.TagId);
+
+            return new JsonResult(new
+            {
+                success = true
+            });
+        }
         public async Task<IActionResult> OnPostAddTagAsync(
-    [FromBody] AddTaskTagDTO dto)
+    [FromBody] TaskTagDTO dto)
         {
             await _tagService.AddToTaskAsync(dto.TaskId, dto.TagId);
 
