@@ -77,8 +77,10 @@ namespace WorkFlowSystem.Web.Pages.Tasks
         }
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Task = await _taskService.GetDetailsAsync2(id);
-            Tags = (await _tagService.GetAllAsync()).ToList();
+            Task = await _taskService.GetDetailsAsync(id);
+            Tags = (await _tagService.GetAllAsync())
+     .Where(t => !Task.Tags.Any(x => x.Id == t.Id))
+     .ToList();
             if (Task == null)
                 return NotFound();
 

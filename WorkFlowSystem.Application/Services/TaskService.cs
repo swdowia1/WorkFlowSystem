@@ -20,7 +20,7 @@ namespace WorkFlowSystem.Application.Services
         {
             _repository = repository;
         }
-        public async Task<TaskDetailsDto> GetDetailsAsync2(int id)
+        public async Task<TaskDetailsDto> GetDetailsAsync(int id)
         {
             var task = await _repository.GetAsync(
      id,

@@ -241,45 +241,34 @@
 
 </div>
 @* Modalne okna *@
-<div class="modal fade"
-     id="addTagModal">
+<div class="modal fade" id="addTagModal">
 
     <div class="modal-dialog">
 
         <div class="modal-content">
 
             <div class="modal-header">
-
-                <h5>Dodaj tag</h5>
-
+                <h5 class="modal-title">Dodaj tag</h5>
             </div>
 
             <div class="modal-body">
 
-                <select id="tagId"
-                        class="form-select">
+                <div class="d-flex flex-wrap gap-2">
 
                     @foreach (var tag in Model.Tags)
                     {
-                        <option value="@tag.Id">
 
-                            @tag.Name
+                        <span class="task-tag" onclick="addtag(@tag.Id)"
+                              style="background:@tag.Color; cursor: pointer;">
 
-                        </option>
+                            <span>@tag.Name</span>
+
+                           
+
+                        </span>
                     }
 
-                </select>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button id="saveTag" onclick="addtag()"
-                        class="btn btn-primary">
-
-                    Dodaj
-
-                </button>
+                </div>
 
             </div>
 
@@ -288,7 +277,6 @@
     </div>
 
 </div>
-
 <form id="antiForgeryForm" method="post">
 
     @Html.AntiForgeryToken()
@@ -364,10 +352,10 @@
             tagId: tagId
         }, true);
     }
-    async function  addtag()
+    async function  addtag(tagId)
     {
       
-         var tagId = $('#tagId').val();
+        
             var taskId = @Model.Task.Id;
            console.log(tagId,taskId);
              await api.post("AddTag", {
