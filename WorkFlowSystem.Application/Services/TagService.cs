@@ -34,7 +34,7 @@ namespace WorkFlowSystem.Application.Services
 
 
 
-        public async Task AddToTaskAsync(
+        public async Task AddTaskTagAsync(
             int taskId,
             int tagId)
         {
@@ -70,7 +70,7 @@ namespace WorkFlowSystem.Application.Services
 
 
 
-        public async Task RemoveFromTaskAsync(
+        public async Task RemoveTaskTagAsync(
             int taskId,
             int tagId)
         {

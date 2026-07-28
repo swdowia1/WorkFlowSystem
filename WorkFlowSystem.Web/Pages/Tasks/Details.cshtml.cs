@@ -24,7 +24,7 @@ namespace WorkFlowSystem.Web.Pages.Tasks
         public async Task<IActionResult> OnPostDeleteTagAsync(
     [FromBody] TaskTagDTO dto)
         {
-            await _tagService.RemoveFromTaskAsync(dto.TaskId, dto.TagId);
+            await _tagService.RemoveTaskTagAsync(dto.TaskId, dto.TagId);
 
             return new JsonResult(new
             {
@@ -34,7 +34,7 @@ namespace WorkFlowSystem.Web.Pages.Tasks
         public async Task<IActionResult> OnPostAddTagAsync(
     [FromBody] TaskTagDTO dto)
         {
-            await _tagService.AddToTaskAsync(dto.TaskId, dto.TagId);
+            await _tagService.AddTaskTagAsync(dto.TaskId, dto.TagId);
 
             return new JsonResult(new
             {

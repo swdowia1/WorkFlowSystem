@@ -29,7 +29,7 @@ namespace WorkFlowSystem.Tests.KLasy
             services.AddScoped(typeof(IRepository<>),
                                typeof(Repository<>));
 
-
+            services.AddScoped(typeof(ILinkRepository<>), typeof(LinkRepository<>));
 
             // Services
 

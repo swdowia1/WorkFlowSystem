@@ -19,5 +19,11 @@ namespace WorkFlowSystem.Tests
             contextDB = provider.GetRequiredService<ApplicationDbContext>();
             service = provider.GetRequiredService<TService>();
         }
+        protected async Task SaveDB()
+        {
+            await contextDB.SaveChangesAsync();
+
+            contextDB.ChangeTracker.Clear();
+        }
     }
 }
