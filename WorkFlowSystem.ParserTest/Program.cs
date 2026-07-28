@@ -2,9 +2,11 @@
 
 var parser = new TrxParser();
 //dotnet test --no-build --logger "trx;LogFileName=results.trx"
+//dotnet test --no-build --logger "trx;LogFileName=results.trx"
+
 var report =
     parser.Parse(
-       @"C:\dysk_d\wywal\testy\results.trx"
+       @"C:\dyskSW\projekty\WorkFlowSystem\WorkFlowSystem.Tests\TestResults\results.trx"
     );
 
 

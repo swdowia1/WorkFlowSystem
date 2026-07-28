@@ -10,7 +10,7 @@ using WorkFlowSystem.Domain.Entities;
 
 namespace WorkFlowSystem.Tests
 {
-    public class TagServiceTest: ServiceTestBase<TagService>
+    public class TagServiceTest : ServiceTestBase<TagService>
     {
         [Fact]
         public async Task Add_Task_Tag_Test()
@@ -34,5 +34,32 @@ namespace WorkFlowSystem.Tests
                .Should()
                .Be(1);
         }
+        [Fact]
+        public async Task Remove_Task_Tag_Test()
+        {
+            contextDB.TaskTags.Add(new WorkFlowSystem.Domain.Entities.TaskTag
+            {
+                TaskId = 1,
+                TagId = 1
+            });
+            await SaveDB();
+            await service.RemoveTaskTagAsync(1, 1);
+            var g = await contextDB.TaskTags.FirstOrDefaultAsync();
+            g.Should().BeNull();
+        }
+        [Fact]
+        public async Task Remove_NicNieusunie()
+        {
+            contextDB.TaskTags.Add(new WorkFlowSystem.Domain.Entities.TaskTag
+            {
+                TaskId = 2,
+                TagId = 1
+            });
+            await SaveDB();
+            await service.RemoveTaskTagAsync(1, 1);
+            var g = await contextDB.TaskTags.FirstOrDefaultAsync();
+            g.Should().NotBeNull();
+        }
     }
+
 }
