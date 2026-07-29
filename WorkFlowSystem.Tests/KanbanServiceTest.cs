@@ -24,7 +24,7 @@ namespace WorkFlowSystem.Tests
                 Status = Domain.Enums.TaskProjectStatus.New
 
             });
-            await contextDB.SaveChangesAsync();
+            await SaveDB();
 
             await service.UpdateStatusAsync(new Application.DTO.UpdateTaskStatusDto
             {
@@ -48,7 +48,7 @@ namespace WorkFlowSystem.Tests
                 Status = Domain.Enums.TaskProjectStatus.Done
 
             });
-            await contextDB.SaveChangesAsync();
+            await SaveDB();
             var dto = new UpdateTaskStatusDto
             {
                 TaskId = 1,

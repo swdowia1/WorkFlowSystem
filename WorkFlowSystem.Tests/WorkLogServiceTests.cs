@@ -27,7 +27,7 @@ namespace WorkFlowSystem.Tests
             };
 
             contextDB.Projects.Add(project);
-            await contextDB.SaveChangesAsync();
+            
 
             var task = new TaskItem
             {
@@ -36,7 +36,7 @@ namespace WorkFlowSystem.Tests
             };
 
             contextDB.Tasks.Add(task);
-            await contextDB.SaveChangesAsync();
+            await SaveDB();
 
             var dto = new WorkLogDto
             {
@@ -70,7 +70,7 @@ namespace WorkFlowSystem.Tests
             };
 
             contextDB.Projects.Add(project);
-            await contextDB.SaveChangesAsync();
+    
 
             var task = new TaskItem
             {
@@ -79,8 +79,8 @@ namespace WorkFlowSystem.Tests
             };
 
             contextDB.Tasks.Add(task);
-            await contextDB.SaveChangesAsync();
 
+            await SaveDB();
             // Act
             await service.AddAsync(new WorkLogDto
             {
@@ -106,8 +106,7 @@ namespace WorkFlowSystem.Tests
             };
 
             contextDB.Projects.Add(project);
-            await contextDB.SaveChangesAsync();
-
+          
             var task = new TaskItem
             {
                 Title = "API",
@@ -115,7 +114,7 @@ namespace WorkFlowSystem.Tests
             };
 
             contextDB.Tasks.Add(task);
-            await contextDB.SaveChangesAsync();
+          
 
             var workLog = new WorkLog
             {
@@ -125,8 +124,8 @@ namespace WorkFlowSystem.Tests
                 Description = "Test"
             };
 
-            contextDB.WorkLogs.Add(workLog);
-            await contextDB.SaveChangesAsync();
+
+            await SaveDB();
 
             // Act
             await service.DeleteAsync(workLog.Id);

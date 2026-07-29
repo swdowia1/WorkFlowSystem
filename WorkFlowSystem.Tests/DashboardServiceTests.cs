@@ -58,10 +58,10 @@ namespace WorkFlowSystem.Tests
                 new WorkFlowSystem.Domain.Entities.WorkLog
                 {
                     TaskItemId = 2,
-                    Hours = 2
+                    Hours = 12
                 }
             });
-            contextDB.SaveChanges();
+            SaveDB();
         }
         [Fact]
         public async Task GetDashboard_Should_Return_Project_Count()
