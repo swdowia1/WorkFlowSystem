@@ -230,6 +230,26 @@
                         </strong>
 
                     </div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Dodaj wpis czasu pracy</h5>
+                           
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="workLogTaskId" value="" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Czas</label>
+                                <div id="indexHoursContainer" class="d-flex flex-wrap gap-2"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Opis</label>
+                                <textarea id="indexDescription" class="form-control" rows="4" placeholder="Opisz wykonaną pracę..."></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
 
                 </div>
 
@@ -341,6 +361,36 @@
 </style>
 
 <script>
+     const indexHours = [
+            { text: "15 min", value: 0.25 },
+            { text: "30 min", value: 0.5 },
+            { text: "1 h", value: 1 },
+            { text: "2 h", value: 2 },
+            { text: "3 h", value: 3 }
+        ];
+
+        let selectedHoursIndex = 0;
+        let activeTaskId = 0;
+
+        const containerIndex = document.getElementById("indexHoursContainer");
+
+        indexHours.forEach(item => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-outline-primary";
+            button.innerText = item.text;
+            button.onclick = function () {
+                selectedHoursIndex = item.value;
+                document.querySelectorAll("#indexHoursContainer button").forEach(x => {
+                    x.classList.remove("btn-primary");
+                    x.classList.add("btn-outline-primary");
+                });
+                button.classList.remove("btn-outline-primary");
+                button.classList.add("btn-primary");
+                selectHour(item.value)
+            };
+            containerIndex.appendChild(button);
+        });
        async function removeTag(tagId) {
         var taskId = @Model.Task.Id;
         console.log(taskId,tagId);
@@ -352,6 +402,23 @@
             tagId: tagId
         }, true);
     }
+        async function selectHour(value) {
+            var taskId = @Model.Task.Id;
+       const description = document.getElementById("indexDescription").value;
+
+            try {
+                await api.post("AddWorkLog", {
+                    taskId: taskId,
+                    hours: value,
+                    description: description
+                });
+
+                location.reload();
+            } catch (e) {
+                alert("Błąd podczas zapisu: " + (e?.message || e));
+            }
+    }
+
     async function  addtag(tagId)
     {
       

@@ -58,7 +58,7 @@ namespace WorkFlowSystem.Tests
                 new WorkFlowSystem.Domain.Entities.WorkLog
                 {
                     TaskItemId = 2,
-                    Hours = 12
+                    Hours = 2
                 }
             });
             SaveDB();

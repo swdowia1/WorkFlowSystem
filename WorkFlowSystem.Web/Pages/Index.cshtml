@@ -2,12 +2,12 @@
 @model WorkFlowSystem.Web.Pages.IndexModel
 
 
-<a asp-page="/Projects/Index" class="btn btn-primary">
+@* <a asp-page="/Projects/Index" class="btn btn-primary">
     projekty
 </a>
 <a asp-page="/Tasks/Index" class="btn btn-warning">
     Taski
-</a>
+</a> *@
 <div class="container mt-4">
 
     <h2 class="mb-4">
@@ -333,12 +333,12 @@
             const description = document.getElementById("indexDescription").value;
 
             try {
-                await api.post("AddWorkLog", {
-                    taskId: activeTaskId,
-                    hours: selectedHoursIndex,
-                    description: description
-                });
-
+             
+                    await api.post("/api/worklog", {
+            taskId,
+            hours,
+            description
+        });
                 location.reload();
             } catch (e) {
                 alert("Błąd podczas zapisu: " + (e?.message || e));
