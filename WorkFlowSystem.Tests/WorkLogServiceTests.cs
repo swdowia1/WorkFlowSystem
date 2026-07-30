@@ -124,7 +124,7 @@ namespace WorkFlowSystem.Tests
                 Description = "Test"
             };
 
-
+            contextDB.WorkLogs.Add(workLog);
             await SaveDB();
 
             // Act
