@@ -26,7 +26,7 @@ namespace WorkFlowSystem.Web.API
         public async Task<IActionResult> Delete(int id)
         {
             await _workLogService.DeleteAsync(id);
-            return Ok();
+            return NoContent();
         }
     }
 }

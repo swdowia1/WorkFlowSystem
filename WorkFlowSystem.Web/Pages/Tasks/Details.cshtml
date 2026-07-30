@@ -125,7 +125,7 @@
                                 <th>Godziny</th>
 
                                 <th>Opis</th>
-
+                                <th></th>
                             </tr>
 
                         </thead>
@@ -134,7 +134,7 @@
 
                             @foreach (var log in Model.Task.WorkLogs)
                             {
-                                <tr>
+                                <tr id="worklog-@log.Id">
 
                                     <td>
                                         @log.WorkDate.ToString("dd.MM.yyyy")
@@ -149,7 +149,14 @@
                                     <td>
                                         @log.Description
                                     </td>
+                                    <td class="text-end">
 
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                onclick="deleteWorkLog(@log.Id)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+
+                                    </td>
                                 </tr>
                             }
 
@@ -401,6 +408,24 @@
             taskId: taskId,
             tagId: tagId
         }, true);
+    }
+        async function deleteWorkLog(id) {
+
+        if (!confirm("Usunąć wpis?")) {
+            return;
+        }
+
+        try {
+
+           await api.deleteApi("/api/worklog", id);
+            document
+                .getElementById(`worklog-${id}`)
+                .remove();
+
+        }
+        catch (e) {
+            alert(e.message);
+        }
     }
         async function selectHour(value) {
             

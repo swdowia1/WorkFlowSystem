@@ -72,6 +72,18 @@ window.api = {
             false
         );
     },
+    deleteApi(url, id) {
+
+        console.log("DELETE API", url, id);
+
+        return request(
+            "DELETE",
+            `${url}/${id}`,
+            null,
+            false,
+            false
+        );
+    },
 
 
     delete(handler, id, reload = false) {
