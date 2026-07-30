@@ -369,7 +369,7 @@
             { text: "3 h", value: 3 }
         ];
 
-        let selectedHoursIndex = 0;
+      
         let activeTaskId = 0;
 
         const containerIndex = document.getElementById("indexHoursContainer");
@@ -380,7 +380,7 @@
             button.className = "btn btn-outline-primary";
             button.innerText = item.text;
             button.onclick = function () {
-                selectedHoursIndex = item.value;
+               
                 document.querySelectorAll("#indexHoursContainer button").forEach(x => {
                     x.classList.remove("btn-primary");
                     x.classList.add("btn-outline-primary");
@@ -403,20 +403,25 @@
         }, true);
     }
         async function selectHour(value) {
+            
             var taskId = @Model.Task.Id;
        const description = document.getElementById("indexDescription").value;
 
-            try {
-                await api.post("AddWorkLog", {
-                    taskId: taskId,
-                    hours: value,
-                    description: description
-                });
-
-                location.reload();
-            } catch (e) {
-                alert("Błąd podczas zapisu: " + (e?.message || e));
-            }
+            // try {
+            //     await api.postApi("api/worklog", {
+            //         taskId: taskId,
+            //         hours: value,
+            //         description: description
+            //     }, true );
+                
+            // } catch (e) {
+            //     alert("Błąd podczas zapisu: " + (e?.message || e));
+            // }
+                  await api.postApi("/api/worklog", {
+        taskId,
+        hours: value,
+        description
+    }, true);
     }
 
     async function  addtag(tagId)
